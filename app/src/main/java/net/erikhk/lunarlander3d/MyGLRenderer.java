@@ -28,7 +28,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     float angz=0, angy=0;
     public float width=922f;
     public float height=540f;
-    public Model terrain;
+    public Terrain terrain;
     public Spaceship spaceship;
     public Context c;
 
@@ -57,7 +57,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "cammatrix"), 1, true, makedoublebuffer(cam.m));
 
         spaceship = new Spaceship(c);
-        terrain = new Model(c, R.raw.terrain_verts, R.raw.terrain_verts);
+        terrain = new Terrain(c);
 
         GLES20.glClearColor(1f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -79,8 +79,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform4f(Shader.colorhandle, 1.0f, 0.0f, MainActivity.phone_ang, 1.0f);
         GLES20.glUniform1f(Shader.anghandle, angz);
 
-
+        terrain.DrawModel();
         spaceship.DrawModel();
+
     }
 
     public FloatBuffer makedoublebuffer(float[] array)

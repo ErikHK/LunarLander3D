@@ -19,9 +19,6 @@ public class Model {
     public static FloatBuffer vertbuff, normbuff, texbuff;
     int buffers[] = new int[3];
 
-    public Mat4 M;
-
-
     String verts_s, norms_s;
     float[] verts, norms;
 
@@ -49,8 +46,6 @@ public class Model {
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, normbuff, GLES20.GL_STATIC_DRAW);
         //unbind
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
-
     }
 
     public void DrawModel()
@@ -58,13 +53,18 @@ public class Model {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
         GLES20.glEnableVertexAttribArray(Shader.positionhandle);
         GLES20.glVertexAttribPointer(Shader.positionhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, MainActivity.spaceshipNumVerts);
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[1]);
         GLES20.glEnableVertexAttribArray(Shader.normalhandle);
         GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
+        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
+
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
     }
 
 
