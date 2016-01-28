@@ -50,7 +50,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         float ratio = width / height;
         Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 750f);
 
-        Mat4 cam = VecMath.lookAt(0f, 20f, 20f,
+        Mat4 cam = VecMath.lookAt(0f, 1f, 10f,
                 0f, 0f, 0f,
                 0.0f, 1.0f, 0.0f);
 
@@ -82,10 +82,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform4f(Shader.colorhandle, 1.0f, 0.0f, MainActivity.phone_ang, 1.0f);
         GLES20.glUniform1f(Shader.anghandle, angz);
 
+
+
+
+        //Draw models
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 1);
         terrain.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 0);
-        //spaceship.DrawModel();
+        spaceship.DrawModel();
+
 
         if(MainActivity.istapping)
             spaceship.isthrusting = true;
