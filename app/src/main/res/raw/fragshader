@@ -45,7 +45,6 @@ void main(){
     			(spaceship_pos.z-inPos.z*1.0)*(spaceship_pos.z-inPos.z*1.0) < .2))
     				colors -= vec4(.4,.4,.4,0);
 
-
     colors = colors + vec4(.6, .6, .6, 1)*lambert;
   }
 

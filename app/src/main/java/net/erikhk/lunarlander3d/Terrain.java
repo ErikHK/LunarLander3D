@@ -155,7 +155,8 @@ public class Terrain {
     public static Vec3 calc_normal(float[] vertexArray, int x, int z, int width)
     {
         //Point3D vec1, vec2;
-        Vec3 vec1 = new Vec3(), vec2 = new Vec3();
+        Vec3 vec1 = new Vec3();
+        Vec3 vec2 = new Vec3();
         Vec3 normal = new Vec3();
 
         if(x > 0 && z > 0 && x < width-1 && z < width-1)
@@ -179,12 +180,18 @@ public class Terrain {
             vec2.z = vertexArray[(x + (z+1) * width)*3 + 2] -
                     vertexArray[(x + z * width)*3 + 2];
 
+            normal = VecMath.Normalize(VecMath.CrossProduct(vec1, vec2));
+            if(normal.y < 0)
+                normal = VecMath.ScalarMult(normal, -1);
+            if(normal.y == 0)
+                normal = new Vec3(0,1,0);
+            if(Math.abs(normal.y) < .3)
+                normal = new Vec3(0,1,0);
 
-            normal = VecMath.Normalize(VecMath.CrossProduct(vec2, vec1));
-
+            return normal;
         }
 
-        return normal;
+        return new Vec3(0,1,0);
     }
 
 

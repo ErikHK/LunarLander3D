@@ -63,9 +63,9 @@ public class VecMath {
         Vec3 result = new Vec3();
 
         norm = (float)Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
-        result.x = a.x / norm;
-        result.y = a.y / norm;
-        result.z = a.z / norm;
+        result.x = a.x / (norm+.01f);
+        result.y = a.y / (norm+.01f);
+        result.z = a.z / (norm+.01f);
         return result;
 
     }
@@ -269,6 +269,18 @@ public class VecMath {
         Mat4 trans = new Mat4();
         trans = T(-p.x, -p.y, -p.z);
         return Mult(rot, trans);
+    }
+
+
+    public static Vec3 ScalarMult(Vec3 a, float s)
+    {
+        Vec3 result = new Vec3();
+
+        result.x = a.x * s;
+        result.y = a.y * s;
+        result.z = a.z * s;
+
+        return result;
     }
 
     public static Mat4 lookAt(float px, float py, float pz,
