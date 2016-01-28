@@ -19,6 +19,9 @@ public class Model {
     public static FloatBuffer vertbuff, normbuff, texbuff;
     int buffers[] = new int[3];
 
+    public Mat4 M;
+
+
     String verts_s, norms_s;
     float[] verts, norms;
 

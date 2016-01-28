@@ -28,7 +28,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     float angz=0, angy=0;
     public float width=922f;
     public float height=540f;
-    public Model spaceship;
+    public Model terrain;
+    public Spaceship spaceship;
     public Context c;
 
     final int vertbuff[] = new int[3];
@@ -47,60 +48,19 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         float ratio = width / height;
         Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 7.5f);
-        //Mat4 projectionMatrix = VecMath.S(1, ratio, 1);
-        //Mat4 projectionMatrix = VecMath.IdentityMatrix();
 
-        //Mat4 cam = VecMath.lookAt(0f, 1f, 1f,
-        //        0f, 0f, 0f,
-        //        0.0f, 1.0f, 0.0f);
-
-        Mat4 cam = VecMath.IdentityMatrix();
+        Mat4 cam = VecMath.lookAt(0f, 1f, 2f,
+                0f, 0f, 0f,
+                0.0f, 1.0f, 0.0f);
 
         GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "projmatrix"), 1, true, makedoublebuffer(projectionMatrix.m));
         GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "cammatrix"), 1, true, makedoublebuffer(cam.m));
 
-        float[] verts =
-                {
-                        0.0f, 1f, 0.0f,
-                        0.0f, 0.0f, 0.0f,
-                        1f, 1f, 0.0f
-                };
-
-        spaceship = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals);
-        //double[] verts2 = ObjFiles.finVerts;
-
-        //vertbuffer = makedoublebuffer(toFloatArray(verts2));
-
-        //vertbuffer = makedoublebuffer(verts);
-        /*
-        vertbuffer = makedoublebuffer(MainActivity.spaceship_verts);
-        normbuffer = makedoublebuffer(MainActivity.spaceship_normals);
-
-
-        GLES20.glGenBuffers(3, vertbuff, 0);
-
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertbuff[0]);
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuffer.capacity() * 4, vertbuffer, GLES20.GL_STATIC_DRAW);
-        //unbind
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
-
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertbuff[1]);
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuffer.capacity() * 4, normbuffer, GLES20.GL_STATIC_DRAW);
-        //unbind
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-        */
-
-
-        //GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, );
+        spaceship = new Spaceship(c);
+        terrain = new Model(c, R.raw.terrain_verts, R.raw.terrain_verts);
 
         GLES20.glClearColor(1f, 1f, 1f, 1f);
-
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        //gl.glDisable(gl.GL_CULL_FACE);
-        //gl.glEnable(gl.GL_BLEND);
-        //gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
-
     }
 
     //@Override
@@ -119,37 +79,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform4f(Shader.colorhandle, 1.0f, 0.0f, MainActivity.phone_ang, 1.0f);
         GLES20.glUniform1f(Shader.anghandle, angz);
 
-        /*
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertbuff[0]);
-        GLES20.glEnableVertexAttribArray(Shader.positionhandle);
-        GLES20.glVertexAttribPointer(Shader.positionhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, MainActivity.spaceshipNumVerts);
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertbuff[1]);
-        GLES20.glEnableVertexAttribArray(Shader.normalhandle);
-        GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-        */
         spaceship.DrawModel();
-
-        //GLES20.glVertexAttribPointer(Shader.positionhandle, 3, GLES20.GL_FLOAT, false, 0, vertbuffer);
-        //GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, true, 0, normbuffer);
-
-        Vec3 n = new Vec3(0,-1,0);
-        Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
-        //Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, n);
-        Mat4 rot = VecMath.Mult(VecMath.T(0,0,-3f), VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
-        //Mat4 rot = VecMath.ArbRotate(VecMath.Normalize(MainActivity.phone_n), MainActivity.phone_ang);
-        //Mat4 rot = VecMath.ArbRotate(VecMath.Normalize(cross), 0);
-        //Mat4 rot = VecMath.ArbRotate(new Vec3(0,.7f,.7f), 0);
-        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makedoublebuffer(rot.m));
-
-        //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, MainActivity.spaceshipNumVerts);
-        //GLES20.glDrawElements(GLES20.GL_TRIANGLES, MainActivity.spaceshipNumVerts, GLES20.GL_UNSIGNED_INT,0);
-
-        angz+=.01;
-        angy+=.02;
     }
 
     public FloatBuffer makedoublebuffer(float[] array)
