@@ -48,9 +48,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glEnableVertexAttribArray(Shader.positionhandle);
 
         float ratio = width / height;
-        Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 75f);
+        Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 750f);
 
-        Mat4 cam = VecMath.lookAt(0f, 1f, 6f,
+        Mat4 cam = VecMath.lookAt(0f, 20f, 20f,
                 0f, 0f, 0f,
                 0.0f, 1.0f, 0.0f);
 
@@ -59,6 +59,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         spaceship = new Spaceship(c);
         terrain = new Terrain(c);
+
 
         GLES20.glClearColor(1f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -84,7 +85,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 1);
         terrain.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 0);
-        spaceship.DrawModel();
+        //spaceship.DrawModel();
 
         if(MainActivity.istapping)
             spaceship.isthrusting = true;
