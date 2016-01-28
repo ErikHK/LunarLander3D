@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         glView = new GLSurfaceView(this);
         glView.setEGLContextClientVersion(2);
         glView.setPreserveEGLContextOnPause(true);
-        glView.setRenderer(new MyGLRenderer());
+        glView.setRenderer(new MyGLRenderer(this));
         this.setContentView(glView);
 
         spaceship_verts_s = readTxt(R.raw.spaceship_verts);
@@ -56,9 +56,10 @@ public class MainActivity extends Activity implements SensorEventListener {
         spaceship_normals_s = readTxt(R.raw.spaceship_normals);
         spaceship_normals = stringToFloats(spaceship_normals_s);
 
-
         vertshader = readTxt(R.raw.vertshader);
         fragshader = readTxt(R.raw.fragshader);
+
+
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

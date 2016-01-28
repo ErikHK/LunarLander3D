@@ -27,6 +27,6 @@ void main(){
   vec4  pixcolor2 = vec4(.8, .3, .3, 1);
   colors = mix(pixcolor1, pixcolor2, f);
 
-  //gl_FragColor = colors;
-  gl_FragColor = col;
+  gl_FragColor = colors;
+  //gl_FragColor = col;
 }

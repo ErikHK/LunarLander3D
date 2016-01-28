@@ -28,9 +28,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     float angz=0, angy=0;
     public float width=922f;
     public float height=540f;
+    public Model spaceship;
+    public Context c;
 
     final int vertbuff[] = new int[3];
 
+    public MyGLRenderer(Context c_)
+    {
+        this.c = c_;
+    }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
@@ -60,13 +66,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                         1f, 1f, 0.0f
                 };
 
-
-
+        spaceship = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals);
         //double[] verts2 = ObjFiles.finVerts;
 
         //vertbuffer = makedoublebuffer(toFloatArray(verts2));
 
         //vertbuffer = makedoublebuffer(verts);
+        /*
         vertbuffer = makedoublebuffer(MainActivity.spaceship_verts);
         normbuffer = makedoublebuffer(MainActivity.spaceship_normals);
 
@@ -83,7 +89,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuffer.capacity() * 4, normbuffer, GLES20.GL_STATIC_DRAW);
         //unbind
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
+        */
 
 
         //GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, );
@@ -113,6 +119,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform4f(Shader.colorhandle, 1.0f, 0.0f, MainActivity.phone_ang, 1.0f);
         GLES20.glUniform1f(Shader.anghandle, angz);
 
+        /*
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertbuff[0]);
         GLES20.glEnableVertexAttribArray(Shader.positionhandle);
         GLES20.glVertexAttribPointer(Shader.positionhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
@@ -123,13 +130,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glEnableVertexAttribArray(Shader.normalhandle);
         GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        */
+        spaceship.DrawModel();
+
         //GLES20.glVertexAttribPointer(Shader.positionhandle, 3, GLES20.GL_FLOAT, false, 0, vertbuffer);
         //GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, true, 0, normbuffer);
 
         Vec3 n = new Vec3(0,-1,0);
         Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
         //Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, n);
-        Mat4 rot = VecMath.Mult(VecMath.T(0,0,-1f), VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
+        Mat4 rot = VecMath.Mult(VecMath.T(0,0,-3f), VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
         //Mat4 rot = VecMath.ArbRotate(VecMath.Normalize(MainActivity.phone_n), MainActivity.phone_ang);
         //Mat4 rot = VecMath.ArbRotate(VecMath.Normalize(cross), 0);
         //Mat4 rot = VecMath.ArbRotate(new Vec3(0,.7f,.7f), 0);
