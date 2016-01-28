@@ -16,11 +16,11 @@ public class Spaceship {
     Model m;
     Mat4 T;
 
-    public static final float gravity = -0.0002f;
+    public static final float gravity = -0.0004f;
     public boolean haslanded = false;
     public boolean isthrusting = false;
     public float fuel = 100.0f;
-    public float thrust = .0007f;
+    public float thrust = .0007f*2f;
     public Vec3 speed = new Vec3();
     public Vec3 pos = new Vec3();
     public Vec3 acc = new Vec3();
@@ -57,6 +57,13 @@ public class Spaceship {
         Vec3 y = new Vec3(0,init_phone_n.y,0);
         Vec3 x = new Vec3(init_phone_n.x,0,0);
 
+
+
+        Mat4 cam = VecMath.lookAt(pos.x, pos.y + 2f, pos.z + 6f,
+                pos.x, pos.y, pos.z,
+                0.0f, 1.0f, 0.0f);
+
+        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "cammatrix"), 1, true, VecMath.makefloatbuffer(cam.m));
 
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_pos"), pos.x, pos.y, pos.z);
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "landing_point_pos"), 2f, 0f, -2f);

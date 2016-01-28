@@ -50,7 +50,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         float ratio = width / height;
         Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 750f);
 
-        Mat4 cam = VecMath.lookAt(0f, 1f, 10f,
+        Mat4 cam = VecMath.lookAt(0f, 1f, 20f,
                 0f, 0f, 0f,
                 0.0f, 1.0f, 0.0f);
 

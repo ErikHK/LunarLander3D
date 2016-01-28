@@ -1,5 +1,9 @@
 package net.erikhk.lunarlander3d;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 /**
  * Created by erikhk on 27/1/2016.
  */
@@ -288,5 +292,13 @@ public class VecMath {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
+    public static FloatBuffer makefloatbuffer(float[] array)
+    {
+        FloatBuffer floatbuff = ByteBuffer.allocateDirect(array.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+
+        floatbuff.put(array).position(0);
+
+        return floatbuff;
+    }
 
 }
