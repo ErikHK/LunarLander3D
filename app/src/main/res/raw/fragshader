@@ -1,0 +1,32 @@
+precision mediump float;
+uniform vec4 u_color;
+
+uniform mat4 cammatrix;
+//mat3 lightCamMatrix;
+
+varying mat4 cammat;
+varying vec3 exNormal;
+varying vec4 col;
+
+vec4 cam_vector = vec4(.6,.6,.6,1);
+vec3 n;
+vec3 s;
+
+void main(){
+  //lightCamMatrix = mat3(cammatrix);
+  vec4 colors;
+
+  n = normalize( exNormal );
+  s = normalize(mat3(cammat)*vec3(-10,20,1));
+
+  //float lambert = pow(dot(n,s),2)-.001;
+  float lambert = dot(n,s);
+
+  float f = smoothstep(.05, .9, lambert);
+  vec4  pixcolor1 = vec4(.6, .05, .05, 1);
+  vec4  pixcolor2 = vec4(.8, .3, .3, 1);
+  colors = mix(pixcolor1, pixcolor2, f);
+
+  //gl_FragColor = colors;
+  gl_FragColor = col;
+}
