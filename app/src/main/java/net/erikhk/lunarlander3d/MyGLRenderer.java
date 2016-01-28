@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -47,9 +48,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glEnableVertexAttribArray(Shader.positionhandle);
 
         float ratio = width / height;
-        Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 7.5f);
+        Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 75f);
 
-        Mat4 cam = VecMath.lookAt(0f, 1f, 2f,
+        Mat4 cam = VecMath.lookAt(0f, 1f, 6f,
                 0f, 0f, 0f,
                 0.0f, 1.0f, 0.0f);
 
@@ -63,7 +64,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     }
 
-    //@Override
+
+        //@Override
     public void onSurfaceChanged(GL10 gl, int width_, int height_) {
         width = width_;
         height = height_;
@@ -79,9 +81,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform4f(Shader.colorhandle, 1.0f, 0.0f, MainActivity.phone_ang, 1.0f);
         GLES20.glUniform1f(Shader.anghandle, angz);
 
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 1);
         terrain.DrawModel();
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 0);
         spaceship.DrawModel();
 
+        if(MainActivity.istapping)
+            spaceship.isthrusting = true;
+        else
+            spaceship.isthrusting = false;
+
+        spaceship.move();
     }
 
     public FloatBuffer makedoublebuffer(float[] array)

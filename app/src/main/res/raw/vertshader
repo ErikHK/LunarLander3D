@@ -5,6 +5,8 @@ varying vec3 exNormal;
 varying mat4 cammat;
 varying vec4 col;
 
+varying vec3 inPos;
+
 uniform mat4 matrix;
 uniform mat4 projmatrix;
 uniform mat4 cammatrix;
@@ -27,4 +29,6 @@ void main(){
 
   gl_Position = projmatrix*cammatrix*matrix*vec4(inPosition.x, inPosition.y, inPosition.z, 1);
   cammat = cammatrix;
+
+  inPos = inPosition;
 }

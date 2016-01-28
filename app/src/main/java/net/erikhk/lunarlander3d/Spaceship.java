@@ -1,6 +1,7 @@
 package net.erikhk.lunarlander3d;
 
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.opengl.GLES20;
 
 import java.nio.ByteBuffer;
@@ -13,11 +14,26 @@ import java.nio.FloatBuffer;
 public class Spaceship {
 
     Model m;
+    Mat4 T;
+
+    public static final float gravity = -0.0002f;
+    public boolean haslanded = false;
+    public boolean isthrusting = false;
+    public float fuel = 100.0f;
+    public float thrust = .0007f;
+    public Vec3 speed = new Vec3();
+    public Vec3 pos = new Vec3();
+    public Vec3 acc = new Vec3();
+
+    public Vec3 phone_n = new Vec3();
+    public Vec3 init_phone_n = new Vec3();
+
 
 
     public Spaceship(Context c)
     {
         m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals);
+        T = VecMath.IdentityMatrix();
     }
 
     public void DrawModel()
@@ -25,10 +41,58 @@ public class Spaceship {
 
         Vec3 n = new Vec3(0,-1,0);
         Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
-        Mat4 rot = VecMath.Mult(VecMath.T(0,0,-0f), VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
+        phone_n = MainActivity.phone_n;
+        init_phone_n = MainActivity.init_phone_n;
+        Mat4 rot = VecMath.Mult(T, VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
         GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
 
         m.DrawModel();
+    }
+
+    public void move()
+    {
+        Vec3 world_n = new Vec3(init_phone_n.x - phone_n.x, init_phone_n.y-phone_n.y, init_phone_n.z - phone_n.z);
+        Vec3 xy = new Vec3(world_n.x, world_n.y, 0);
+        Vec3 xz = new Vec3((phone_n.x-init_phone_n.x), 0, (phone_n.z-init_phone_n.z));
+        Vec3 y = new Vec3(0,init_phone_n.y,0);
+        Vec3 x = new Vec3(init_phone_n.x,0,0);
+
+
+        GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_pos"), pos.x, pos.y, pos.z);
+        GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "landing_point_pos"), 2f, 0f, -2f);
+
+        float ang = MainActivity.phone_ang;
+
+        if(isthrusting) {
+            /*
+            acc.x = -thrust * (float)Math.sin(MainActivity.phone_ang);
+            acc.y = thrust * (float)Math.cos(MainActivity.phone_ang);
+            acc.z = -thrust * (float)Math.sin(phi);
+            */
+            acc.x = thrust * xz.x/5.0f;
+            //acc.y = thrust*(1 - (float)Math.sqrt( (xz.x)*(xz.x) + (xz.z)*(xz.z)  )/10.0f);
+            acc.y = thrust * (float)Math.cos(ang);
+            acc.z = thrust * xz.z/5.0f;
+
+
+        }
+
+        else
+            acc.y = gravity;
+
+        speed.x += acc.x;
+        speed.y += acc.y;
+        speed.z += acc.z;
+
+        pos.x += speed.x;
+        pos.y += speed.y;
+        pos.z += speed.z;
+
+        T = VecMath.T(pos);
+
+        speed.x *= 0.97f;
+        speed.z *= 0.97f;
+
     }
 
 

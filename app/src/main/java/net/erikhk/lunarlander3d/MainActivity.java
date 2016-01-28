@@ -10,12 +10,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends Activity implements SensorEventListener, View.OnTouchListener {
 
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
@@ -36,7 +38,23 @@ public class MainActivity extends Activity implements SensorEventListener {
     public static String vertshader;
     public static String fragshader;
 
+    public static boolean istapping = false;
+
     public static boolean hasSetFirst = false;
+
+    //final float[] rotmat = new float[9];
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent e)
+    {
+        if(e.getAction() == MotionEvent.ACTION_DOWN)
+            istapping = true;
+        else if(e.getAction() == MotionEvent.ACTION_UP)
+            istapping = false;
+
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +67,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         glView.setPreserveEGLContextOnPause(true);
         glView.setRenderer(new MyGLRenderer(this));
         this.setContentView(glView);
+        glView.setOnTouchListener(this);
 
         spaceship_verts_s = readTxt(R.raw.spaceship_verts);
         spaceship_verts = stringToFloats(spaceship_verts_s);
@@ -63,9 +82,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
+        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+
+
 
     }
+
+
+
+
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -94,6 +119,14 @@ public class MainActivity extends Activity implements SensorEventListener {
             Vec3 cross = VecMath.CrossProduct(phone_n, init_phone_n);
 
             phone_ang = (float)Math.asin(VecMath.Norm(cross)/(VecMath.Norm(phone_n) * VecMath.Norm(init_phone_n) ));
+
+        /*
+        final float[] rotmat = new float[9];
+        final float[] ident = {1,0,0, 0,1,0, 0,0,1};
+        final float[] angles = {0,0};
+        float[] grav = {init_phone_n.x - phone_n.x, init_phone_n.y-phone_n.y, init_phone_n.z - phone_n.z};
+*/
+
 
         //}
     }

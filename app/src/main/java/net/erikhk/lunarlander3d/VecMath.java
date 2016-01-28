@@ -233,6 +233,11 @@ public class VecMath {
         return m;
     }
 
+    public static Mat4 T(Vec3 v)
+    {
+        return T(v.x, v.y, v.z);
+    }
+
     public static Mat4 S(float sx, float sy, float sz)
     {
         Mat4 m;
@@ -275,6 +280,12 @@ public class VecMath {
         v = SetVector(vx, vy, vz);
 
         return lookAtv(p, l, v);
+    }
+
+
+    public static float DotProduct(Vec3 a, Vec3 b)
+    {
+        return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
 
