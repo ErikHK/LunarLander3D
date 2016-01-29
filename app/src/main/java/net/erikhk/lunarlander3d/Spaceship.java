@@ -1,6 +1,7 @@
 package net.erikhk.lunarlander3d;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.hardware.SensorManager;
 import android.opengl.GLES20;
 
@@ -15,6 +16,7 @@ public class Spaceship {
 
     Model m;
     Mat4 T;
+    Bitmap bm;
 
     public static final float gravity = -0.0004f;
     public boolean haslanded = false;
@@ -58,8 +60,14 @@ public class Spaceship {
         Vec3 x = new Vec3(init_phone_n.x,0,0);
 
 
+        Mat4 cam;
 
-        Mat4 cam = VecMath.lookAt(pos.x, pos.y + 2f, pos.z + 6f,
+        if(MainActivity.faraway)
+            cam = VecMath.lookAt(-50f, 30f, 50f,
+                    0f, 0f, 0f,
+                    0.0f, 1.0f, 0.0f);
+        else
+            cam = VecMath.lookAt(pos.x, pos.y + 3f, pos.z + 6f,
                 pos.x, pos.y, pos.z,
                 0.0f, 1.0f, 0.0f);
 

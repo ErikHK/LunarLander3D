@@ -1,6 +1,7 @@
 attribute vec3 inPosition;
 attribute vec3 inNormal;
 
+
 varying vec3 exNormal;
 varying mat4 cammat;
 varying vec4 col;
@@ -11,6 +12,7 @@ uniform mat4 matrix;
 uniform mat4 projmatrix;
 uniform mat4 cammatrix;
 uniform float ang;
+uniform int drawterrain;
 mat4 test;
 
 
@@ -23,11 +25,15 @@ void main(){
   float shade;
   shade = dot(normalize(inNormal), light);
   col = vec4(shade);
+  vec3 pos = vec3(inPosition);
 
   exNormal = transformedNormal;
 
+  if(drawterrain && pos.y < 0.0)
+    gl_Position = projmatrix*cammatrix*matrix*vec4(pos.x, 0.0, pos.z, 1.0);
+  else
+    gl_Position = projmatrix*cammatrix*matrix*vec4(pos, 1.0);
 
-  gl_Position = projmatrix*cammatrix*matrix*vec4(inPosition.x, inPosition.y, inPosition.z, 1);
   cammat = cammatrix;
 
   inPos = inPosition;

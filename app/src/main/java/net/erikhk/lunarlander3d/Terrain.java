@@ -30,7 +30,7 @@ public class Terrain {
     public void DrawModel()
     {
 
-        Mat4 M = VecMath.Mult(VecMath.T(0,-10f,0), VecMath.S(1,1,1));
+        Mat4 M = VecMath.Mult(VecMath.T(0,-10f,0), VecMath.S(1.5f,1.5f,1.5f));
         GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(M.m));
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, m.buffers[0]);

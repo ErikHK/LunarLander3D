@@ -35,17 +35,20 @@ void main(){
 
   if(drawterrain==1)
   {
-    //colors = mix(pixcolor1, pixcolor2, f) + vec4(.1, .4, .5, 1);
+    colors = vec4(.2, .8, .2, 1)*lambert;
 
-    //f = smoothstep(.05, .9, lambert);
-    //pixcolor1 = vec4(.1, .4, .5, 1);
-    //pixcolor2 = vec4(.1, .1, .1, 1);
-    //colors = mix(pixcolor1, pixcolor2, f);
-    if(((spaceship_pos.x-inPos.x*1.0)*(spaceship_pos.x-inPos.x*1.0) +
-    			(spaceship_pos.z-inPos.z*1.0)*(spaceship_pos.z-inPos.z*1.0) < .2))
+    if(inPos.y < 0.0)
+        {
+          colors = vec4(.3, .3, .8, 1);
+        }
+
+    if(((spaceship_pos.x-inPos.x*1.5)*(spaceship_pos.x-inPos.x*1.5) +
+    			(spaceship_pos.z-inPos.z*1.5)*(spaceship_pos.z-inPos.z*1.5) < 1.0))
     				colors -= vec4(.4,.4,.4,0);
 
     colors = colors + vec4(.6, .6, .6, 1)*lambert;
+
+
   }
 
   gl_FragColor = colors;

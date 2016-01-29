@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements SensorEventListener, View.
     public static String fragshader;
 
     public static boolean istapping = false;
+    public static boolean faraway = false;
 
     public static boolean hasSetFirst = false;
 
@@ -48,10 +49,18 @@ public class MainActivity extends Activity implements SensorEventListener, View.
     @Override
     public boolean onTouch(View v, MotionEvent e)
     {
-        if(e.getAction() == MotionEvent.ACTION_DOWN)
-            istapping = true;
-        else if(e.getAction() == MotionEvent.ACTION_UP)
+        if(e.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = e.getRawX();
+
+            if(x < 300)
+                istapping = true;
+            else
+                faraway = true;
+        }
+        else if(e.getAction() == MotionEvent.ACTION_UP) {
             istapping = false;
+            faraway = false;
+        }
 
         return true;
     }
