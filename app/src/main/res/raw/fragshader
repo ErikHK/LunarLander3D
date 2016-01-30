@@ -4,6 +4,7 @@ uniform vec4 u_color;
 uniform mat4 cammatrix;
 uniform int drawterrain;
 uniform int draw_landing_point;
+uniform int draw_hudf;
 //mat3 lightCamMatrix;
 
 uniform vec3 spaceship_pos;
@@ -34,7 +35,6 @@ void main(){
   vec4  pixcolor1 = vec4(.2, .3, .5, 1);
   vec4  pixcolor2 = vec4(.3, .4, .6, 1);
   colors = mix(pixcolor1, pixcolor2, f);
-
 
 
   if(drawterrain==1)
@@ -71,6 +71,11 @@ void main(){
     if(((spaceship_pos.x-inPos.x*2. - landing_point_pos.x)*(spaceship_pos.x - inPos.x*2. - landing_point_pos.x) +
         			(spaceship_pos.z - inPos.z*2. - landing_point_pos.z)*(spaceship_pos.z - inPos.z*2. - landing_point_pos.z) < .5))
         				colors -= vec4(.4,.4,.4,0);
+  }
+
+  if(draw_hudf==1)
+  {
+    colors = vec4(.9, .1, .1, 1.0);
   }
 
   gl_FragColor = colors;

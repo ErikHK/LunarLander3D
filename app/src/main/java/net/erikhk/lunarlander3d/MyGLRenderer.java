@@ -32,6 +32,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public Terrain terrain;
     public Spaceship spaceship;
     public LandingPoint lp;
+    public FuelBar fuelbar;
     public Context c;
 
     final int vertbuff[] = new int[3];
@@ -61,7 +62,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         spaceship = new Spaceship(c);
         terrain = new Terrain(c);
         lp = new LandingPoint(c, terrain);
-
+        fuelbar = new FuelBar(c);
 
         GLES20.glClearColor(1f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -95,6 +96,19 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 1);
         lp.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 0);
+
+        fuelbar.update(spaceship.fuel);
+
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 1);
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 1);
+
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        fuelbar.DrawModel();
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 0);
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 0);
+
 
 
         if(MainActivity.istapping)

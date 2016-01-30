@@ -83,6 +83,9 @@ public class Spaceship {
             acc.y = thrust * (float)Math.cos(MainActivity.phone_ang);
             acc.z = -thrust * (float)Math.sin(phi);
             */
+            if(fuel > 0.0f)
+            fuel -= .5;
+            GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), fuel);
             acc.x = thrust * xz.x/5.0f;
             //acc.y = thrust*(1 - (float)Math.sqrt( (xz.x)*(xz.x) + (xz.z)*(xz.z)  )/10.0f);
             acc.y = thrust * (float)Math.cos(ang);
