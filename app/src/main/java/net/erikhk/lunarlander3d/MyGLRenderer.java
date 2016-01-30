@@ -31,6 +31,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public float height=540f;
     public Terrain terrain;
     public Spaceship spaceship;
+    public LandingPoint lp;
     public Context c;
 
     final int vertbuff[] = new int[3];
@@ -59,6 +60,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         spaceship = new Spaceship(c);
         terrain = new Terrain(c);
+        lp = new LandingPoint(c, terrain);
 
 
         GLES20.glClearColor(1f, 1f, 1f, 1f);
@@ -83,13 +85,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1f(Shader.anghandle, angz);
 
 
-
-
         //Draw models
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 1);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 1);
         terrain.DrawModel();
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 0);
         spaceship.DrawModel();
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 1);
+        lp.DrawModel();
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 0);
 
 
         if(MainActivity.istapping)
@@ -97,7 +102,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         else
             spaceship.isthrusting = false;
 
-        spaceship.move();
+        float hh = terrain.getHeight((int)spaceship.pos.x/2, (int)spaceship.pos.z/2);
+
+        if(spaceship.pos.y > hh && VecMath.DistanceXZ(spaceship.pos, lp.pos) > 2.0f)
+            spaceship.move();
+        //else if(VecMath.DistanceXZ(spaceship.pos, lp.pos) < 4.0f && spaceship.pos.y > hh + 5f)
+        //    spaceship.move();
     }
 
     public FloatBuffer makedoublebuffer(float[] array)

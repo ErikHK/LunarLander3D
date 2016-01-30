@@ -90,47 +90,18 @@ public class Model {
 
     public void DrawModel()
     {
-        /*
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
-        //GLES20.glEnableVertexAttribArray(Shader.positionhandle);
-        GLES20.glVertexAttribPointer(Shader.positionhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
-        GLES20.glEnableVertexAttribArray(Shader.positionhandle);
-
-        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[1]);
-        //GLES20.glEnableVertexAttribArray(Shader.normalhandle);
-        GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
-        GLES20.glEnableVertexAttribArray(Shader.normalhandle);
-        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
-        //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
-
-        //GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, buffers[3]);
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, 15 * 15 * 2 * 3, GLES20.GL_UNSIGNED_INT, 0);
-        //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
-
-        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-        */
-
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
         //GLES20.glEnableVertexAttribArray(Shader.positionhandle);
         GLES20.glVertexAttribPointer(Shader.positionhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
         GLES20.glEnableVertexAttribArray(Shader.positionhandle);
 
-        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[1]);
         //GLES20.glEnableVertexAttribArray(Shader.normalhandle);
         GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
         GLES20.glEnableVertexAttribArray(Shader.normalhandle);
-        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
-
-
-        //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 

@@ -298,6 +298,11 @@ public class VecMath {
         return lookAtv(p, l, v);
     }
 
+    public static float DistanceXZ(Vec3 a, Vec3 b)
+    {
+        return (float)Math.sqrt( (a.x-b.x)*(a.x-b.x) + (a.z-b.z)*(a.z-b.z) );
+    }
+
 
     public static float DotProduct(Vec3 a, Vec3 b)
     {

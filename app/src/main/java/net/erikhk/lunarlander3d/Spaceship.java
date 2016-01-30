@@ -18,7 +18,7 @@ public class Spaceship {
     Mat4 T;
     Bitmap bm;
 
-    public static final float gravity = -0.0004f;
+    public static final float gravity = -0.0006f;
     public boolean haslanded = false;
     public boolean isthrusting = false;
     public float fuel = 100.0f;
@@ -30,12 +30,12 @@ public class Spaceship {
     public Vec3 phone_n = new Vec3();
     public Vec3 init_phone_n = new Vec3();
 
-
-
     public Spaceship(Context c)
     {
         m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals);
+        //T = VecMath.T(0,25f,0);
         T = VecMath.IdentityMatrix();
+        pos = new Vec3(16f, 10f, 16f);
     }
 
     public void DrawModel()
@@ -63,8 +63,8 @@ public class Spaceship {
         Mat4 cam;
 
         if(MainActivity.faraway)
-            cam = VecMath.lookAt(-50f, 30f, 50f,
-                    0f, 0f, 0f,
+            cam = VecMath.lookAt(-50f+8, 30f, 50f+8,
+                    16f, 0f, 16f,
                     0.0f, 1.0f, 0.0f);
         else
             cam = VecMath.lookAt(pos.x, pos.y + 3f, pos.z + 6f,
@@ -74,7 +74,6 @@ public class Spaceship {
         GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "cammatrix"), 1, true, VecMath.makefloatbuffer(cam.m));
 
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_pos"), pos.x, pos.y, pos.z);
-        GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "landing_point_pos"), 2f, 0f, -2f);
 
         float ang = MainActivity.phone_ang;
 

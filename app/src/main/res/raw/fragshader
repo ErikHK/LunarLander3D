@@ -3,6 +3,7 @@ uniform vec4 u_color;
 
 uniform mat4 cammatrix;
 uniform int drawterrain;
+uniform int draw_landing_point;
 //mat3 lightCamMatrix;
 
 uniform vec3 spaceship_pos;
@@ -23,7 +24,7 @@ void main(){
   vec4 colors;
 
   n = normalize( exNormal );
-  s = normalize(mat3(cammat)*vec3(-10,20,1));
+  s = normalize(mat3(cammat)*vec3(10,50,10));
 
   //float lambert = pow(dot(n,s),2)-.001;
   float lambert = dot(n,s);
@@ -35,22 +36,29 @@ void main(){
 
   if(drawterrain==1)
   {
-    colors = vec4(.2, .8, .2, 1)*lambert;
+    colors = vec4(.3, .9, .3, 1)*lambert;
 
     if(inPos.y < 0.0)
         {
           colors = vec4(.3, .3, .8, 1);
+          //gl_Normal.y = 1;
         }
 
-    if(((spaceship_pos.x-inPos.x*1.5)*(spaceship_pos.x-inPos.x*1.5) +
-    			(spaceship_pos.z-inPos.z*1.5)*(spaceship_pos.z-inPos.z*1.5) < 1.0))
+    if(((spaceship_pos.x-inPos.x*1.)*(spaceship_pos.x-inPos.x*1.) +
+    			(spaceship_pos.z-inPos.z*1.)*(spaceship_pos.z-inPos.z*1.) < 1.0))
     				colors -= vec4(.4,.4,.4,0);
-
-    colors = colors + vec4(.6, .6, .6, 1)*lambert;
-
 
   }
 
-  gl_FragColor = colors;
+  if(draw_landing_point==1)
+  {
+    colors = vec4(.4, .4, .5, 1)*lambert;
+
+    if(((spaceship_pos.x-inPos.x - landing_point_pos.x)*(spaceship_pos.x - inPos.x - landing_point_pos.x) +
+        			(spaceship_pos.z - inPos.z - landing_point_pos.z)*(spaceship_pos.z - inPos.z - landing_point_pos.z) < .5))
+        				colors -= vec4(.4,.4,.4,0);
+  }
+
+  gl_FragColor = colors + vec4(.2, .2, .2, 0);
 
 }

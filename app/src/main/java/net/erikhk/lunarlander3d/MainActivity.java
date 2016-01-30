@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -51,8 +52,10 @@ public class MainActivity extends Activity implements SensorEventListener, View.
     {
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
             float x = e.getRawX();
+            Point p = new Point();
+            getWindowManager().getDefaultDisplay().getSize(p);
 
-            if(x < 300)
+            if(x < p.x/2)
                 istapping = true;
             else
                 faraway = true;

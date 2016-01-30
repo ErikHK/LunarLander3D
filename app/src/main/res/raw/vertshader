@@ -12,7 +12,7 @@ uniform mat4 matrix;
 uniform mat4 projmatrix;
 uniform mat4 cammatrix;
 uniform float ang;
-uniform int drawterrain;
+uniform int drawterrain2;
 mat4 test;
 
 
@@ -29,8 +29,12 @@ void main(){
 
   exNormal = transformedNormal;
 
-  if(drawterrain && pos.y < 0.0)
+  if(pos.y < 0.0 && drawterrain2==1)
+  {
     gl_Position = projmatrix*cammatrix*matrix*vec4(pos.x, 0.0, pos.z, 1.0);
+    //gl_Normal.y = 1.0;
+    //inNormal.y = 1.0;
+  }
   else
     gl_Position = projmatrix*cammatrix*matrix*vec4(pos, 1.0);
 

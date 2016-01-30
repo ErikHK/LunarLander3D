@@ -15,9 +15,11 @@ public class Terrain {
     Model m;
     static int[] p = new int[512];
     static int repeat = 0;
+    static int size = 16;
+    static float[][] heights = new float[size][size];
     Random r = new Random();
+    static int scale = 2;
 
-    int size = 16;
 
     public Terrain(Context c)
     {
@@ -27,10 +29,16 @@ public class Terrain {
 
     }
 
+    public float getHeight(int x, int z)
+    {
+        return heights[x][z];
+    }
+
     public void DrawModel()
     {
 
-        Mat4 M = VecMath.Mult(VecMath.T(0,-10f,0), VecMath.S(1.5f,1.5f,1.5f));
+        //Mat4 M = VecMath.Mult(VecMath.T(-scale*size/2,0,-scale*size/2), VecMath.S(1.f,1.f,1.f));
+        Mat4 M = VecMath.Mult(VecMath.T(0,0,0), VecMath.S(1.f,1.f,1.f));
         GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(M.m));
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, m.buffers[0]);
@@ -90,7 +98,7 @@ public class Terrain {
                 for (z = 0; z < size; z++)
                 {
                     //float height = 1 * (float)OctavePerlin(x / (8.0 * 16 * 4 * 4), z / (8.0 * 16 * 4 * 4), 0, 10, 10.0);
-                    float height = 10 * (float)OctavePerlin(x / (16.0 * 16 * 4 * 4 ), z / (16.0 * 16 * 4 * 4 ), 0, 10, 10.0) - 5f;
+                    float height = 20 * (float)OctavePerlin(x / (16.0 * 16 * 4 * 4 ), z / (16.0 * 16 * 4 * 4 ), 0, 10, 10.0) - 10f;
                     //float height = 1;
 
                     /*
@@ -102,9 +110,12 @@ public class Terrain {
                     }
                     */
                     // Vertex array. You need to scale this properly
-                    vertexArray[(x + z * size)*3 + 0] = 2*(x-size/2);
+                    vertexArray[(x + z * size)*3 + 0] = scale*x;//scale*(x-size/2);
                     vertexArray[(x + z * size) * 3 + 1] = height;
-                    vertexArray[(x + z * size)*3 + 2] = 2*(z-size/2);
+                    vertexArray[(x + z * size)*3 + 2] = scale*z;//scale*(z-size/2);
+
+                    //store height for landing point to access
+                    heights[x][z] = height;
 
                     // Normal vectors. You need to calculate these.
                     tmp_normal = calc_normal(vertexArray, x, z, size);
@@ -180,13 +191,16 @@ public class Terrain {
             vec2.z = vertexArray[(x + (z+1) * width)*3 + 2] -
                     vertexArray[(x + z * width)*3 + 2];
 
-            normal = VecMath.Normalize(VecMath.CrossProduct(vec1, vec2));
+            normal = VecMath.Normalize(VecMath.CrossProduct(vec2, vec1));
+
+            /*
             if(normal.y < 0)
                 normal = VecMath.ScalarMult(normal, -1);
             if(normal.y == 0)
                 normal = new Vec3(0,1,0);
             if(Math.abs(normal.y) < .3)
                 normal = new Vec3(0,1,0);
+                */
 
             return normal;
         }
