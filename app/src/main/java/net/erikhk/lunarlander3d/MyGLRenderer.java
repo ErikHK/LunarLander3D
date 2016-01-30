@@ -112,7 +112,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         if(spaceship.pos.y > hh && dist > 1.0f)
             spaceship.move();
-        else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + .75f)
+        else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + 2f)
             spaceship.move();
     }
 
