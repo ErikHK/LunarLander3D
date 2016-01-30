@@ -102,12 +102,18 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         else
             spaceship.isthrusting = false;
 
-        float hh = terrain.getHeight((int)spaceship.pos.x/2, (int)spaceship.pos.z/2);
+        float hh = 0;
+        if(spaceship.pos.x >= 0 && spaceship.pos.x < 32 && spaceship.pos.z >= 0 && spaceship.pos.z < 32)
+            hh = terrain.getHeight(spaceship.pos.x, spaceship.pos.z);
+        if(hh < 0)
+            hh = 0;
 
-        if(spaceship.pos.y > hh && VecMath.DistanceXZ(spaceship.pos, lp.pos) > 2.0f)
+        float dist = VecMath.DistanceXZ(spaceship.pos, lp.pos);
+
+        if(spaceship.pos.y > hh && dist > 1.0f)
             spaceship.move();
-        //else if(VecMath.DistanceXZ(spaceship.pos, lp.pos) < 4.0f && spaceship.pos.y > hh + 5f)
-        //    spaceship.move();
+        else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + .75f)
+            spaceship.move();
     }
 
     public FloatBuffer makedoublebuffer(float[] array)

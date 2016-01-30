@@ -54,8 +54,8 @@ void main(){
   {
     colors = vec4(.4, .4, .5, 1)*lambert;
 
-    if(((spaceship_pos.x-inPos.x - landing_point_pos.x)*(spaceship_pos.x - inPos.x - landing_point_pos.x) +
-        			(spaceship_pos.z - inPos.z - landing_point_pos.z)*(spaceship_pos.z - inPos.z - landing_point_pos.z) < .5))
+    if(((spaceship_pos.x-inPos.x*2. - landing_point_pos.x)*(spaceship_pos.x - inPos.x*2. - landing_point_pos.x) +
+        			(spaceship_pos.z - inPos.z*2. - landing_point_pos.z)*(spaceship_pos.z - inPos.z*2. - landing_point_pos.z) < .5))
         				colors -= vec4(.4,.4,.4,0);
   }
 

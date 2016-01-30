@@ -18,7 +18,7 @@ public class Terrain {
     static int size = 16;
     static float[][] heights = new float[size][size];
     Random r = new Random();
-    static int scale = 2;
+    static int scale = 1;
 
 
     public Terrain(Context c)
@@ -29,9 +29,9 @@ public class Terrain {
 
     }
 
-    public float getHeight(int x, int z)
+    public float getHeight(float x, float z)
     {
-        return heights[x][z];
+        return heights[(int)(x/2)][(int)(z/2)];
     }
 
     public void DrawModel()
@@ -110,11 +110,11 @@ public class Terrain {
                     }
                     */
                     // Vertex array. You need to scale this properly
-                    vertexArray[(x + z * size)*3 + 0] = scale*x;//scale*(x-size/2);
+                    vertexArray[(x + z * size)*3 + 0] = 2*x;//scale*(x-size/2);
                     vertexArray[(x + z * size) * 3 + 1] = height;
-                    vertexArray[(x + z * size)*3 + 2] = scale*z;//scale*(z-size/2);
+                    vertexArray[(x + z * size)*3 + 2] = 2*z;//scale*(z-size/2);
 
-                    //store height for landing point to access
+                    //store height for collision tests
                     heights[x][z] = height;
 
                     // Normal vectors. You need to calculate these.
