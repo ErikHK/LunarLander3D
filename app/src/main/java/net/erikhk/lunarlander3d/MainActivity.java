@@ -33,6 +33,9 @@ public class MainActivity extends Activity implements SensorEventListener, View.
     public static int spaceshipNumVerts = 3924;
     public static int spaceshipNumNormals = 3924;
 
+    public static boolean waitForRestart = false;
+    public static boolean restart = false;
+
     public static float[] spaceship_verts;
     public static float[] spaceship_normals;
 
@@ -50,6 +53,9 @@ public class MainActivity extends Activity implements SensorEventListener, View.
     @Override
     public boolean onTouch(View v, MotionEvent e)
     {
+        if(waitForRestart && e.getAction() == MotionEvent.ACTION_DOWN)
+            restart = true;
+
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
             float x = e.getRawX();
             Point p = new Point();

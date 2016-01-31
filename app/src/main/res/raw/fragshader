@@ -53,7 +53,6 @@ void main(){
     pixcolor2 = vec4(.3, .9, .3, 1);
     colors = mix(pixcolor1, pixcolor2, f);
 
-
     if(inPos.y < 0.4 && inPos.y >= 0.2)
     {
       float ff = smoothstep(.2, .3, inPos.y);

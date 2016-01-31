@@ -147,9 +147,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         else //has crashed
             spaceship.hascrashed = true;
 
+
         if(spaceship.hascrashed || spaceship.haslanded) {
             menu.drawGameOver();
-            reset();
+
+            //tell it to wait for restart
+            MainActivity.waitForRestart = true;
+
+            if(MainActivity.restart)
+              reset();
         }
 
     }
@@ -157,9 +163,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void reset()
     {
         spaceship.pos = new Vec3(terrain.size, 15f, terrain.size);
+        spaceship.speed = new Vec3(0,0,0);
+        spaceship.acc = new Vec3(0,0,0);
+
         spaceship.hascrashed = false;
         spaceship.haslanded = false;
         spaceship.fuel = 100f;
+
+        MainActivity.waitForRestart = false;
+        MainActivity.restart = false;
+
 
     }
 
