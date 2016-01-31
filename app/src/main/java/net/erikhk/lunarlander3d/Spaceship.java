@@ -32,7 +32,7 @@ public class Spaceship {
 
     public Spaceship(Context c)
     {
-        m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals);
+        m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals, R.raw.spaceship_texture);
         //T = VecMath.T(0,25f,0);
         T = VecMath.IdentityMatrix();
         pos = new Vec3(8f, 10f, 8f);

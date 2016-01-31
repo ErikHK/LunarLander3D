@@ -38,6 +38,7 @@ public class Shader {
     public static int positionhandle;
     public static int normalhandle;
     public static int colorhandle;
+    public static int texturehandle;
     public static int rothandle;
     public static int anghandle;
 
@@ -56,6 +57,7 @@ public class Shader {
 
         positionhandle = GLES20.glGetAttribLocation(program, "inPosition");
         normalhandle = GLES20.glGetAttribLocation(program, "inNormal");
+        texturehandle = GLES20.glGetAttribLocation(program, "inTexCoord");
         colorhandle = GLES20.glGetUniformLocation(program, "u_color");
         rothandle = GLES20.glGetUniformLocation(program, "matrix");
         anghandle = GLES20.glGetUniformLocation(program, "ang");

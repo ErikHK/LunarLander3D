@@ -5,12 +5,15 @@ uniform mat4 cammatrix;
 uniform int drawterrain;
 uniform int draw_landing_point;
 uniform int draw_hudf;
+uniform sampler2D tex;
+
 //mat3 lightCamMatrix;
 
 uniform vec3 spaceship_pos;
 uniform vec3 landing_point_pos;
 
 varying vec3 inPos;
+varying vec2 texCoord;
 
 varying mat4 cammat;
 varying vec3 exNormal;
@@ -34,7 +37,9 @@ void main(){
   //vec4  pixcolor2 = vec4(.8, .3, .3, 1);
   vec4  pixcolor1 = vec4(.2, .3, .5, 1);
   vec4  pixcolor2 = vec4(.3, .4, .6, 1);
-  colors = mix(pixcolor1, pixcolor2, f);
+  //colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex, texCoord);
+  colors = texture2D(tex, texCoord);
+  //colors = mix(pixcolor1, pixcolor2, f);
 
 
   if(drawterrain==1)
