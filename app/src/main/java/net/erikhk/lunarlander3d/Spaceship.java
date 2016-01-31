@@ -60,19 +60,6 @@ public class Spaceship {
         Vec3 x = new Vec3(init_phone_n.x,0,0);
 
 
-        Mat4 cam;
-
-        if(MainActivity.faraway)
-            cam = VecMath.lookAt(-20f+16, 35f, 20f+16,
-                    16f, 0f, 16f,
-                    0.0f, 1.0f, 0.0f);
-        else
-            cam = VecMath.lookAt(pos.x, pos.y + 3f, pos.z + 4f,
-                pos.x, pos.y, pos.z,
-                0.0f, 1.0f, 0.0f);
-
-        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "cammatrix"), 1, true, VecMath.makefloatbuffer(cam.m));
-
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_pos"), pos.x, pos.y, pos.z);
 
         float ang = MainActivity.phone_ang;

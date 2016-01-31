@@ -35,12 +35,11 @@ void main(){
   float f = smoothstep(.05, .9, lambert);
   //vec4  pixcolor1 = vec4(.6, .05, .05, 1);
   //vec4  pixcolor2 = vec4(.8, .3, .3, 1);
-  vec4  pixcolor1 = vec4(.2, .3, .5, 1);
-  vec4  pixcolor2 = vec4(.3, .4, .6, 1);
-  //colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex, texCoord);
-  colors = texture2D(tex, texCoord);
+  vec4  pixcolor1 = vec4(1, 1, 1, 1);
+  vec4  pixcolor2 = vec4(.8, .8, .8, 1);
+  colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex, texCoord);
+  //colors = texture2D(tex, texCoord) * lambert;
   //colors = mix(pixcolor1, pixcolor2, f);
-
 
   if(drawterrain==1)
   {

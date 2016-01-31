@@ -36,6 +36,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public Spaceship spaceship;
     public LandingPoint lp;
     public FuelBar fuelbar;
+    public Camera camera;
     public Context c;
 
     final int vertbuff[] = new int[3];
@@ -66,6 +67,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         terrain = new Terrain(c);
         lp = new LandingPoint(c, terrain);
         fuelbar = new FuelBar(c);
+        camera = new Camera();
 
         GLES20.glClearColor(1f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -100,6 +102,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 0);
 
         fuelbar.update(spaceship.fuel);
+        camera.update(spaceship);
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 1);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 1);
@@ -110,8 +113,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 0);
-
-
+        
         if(MainActivity.istapping)
             spaceship.isthrusting = true;
         else
