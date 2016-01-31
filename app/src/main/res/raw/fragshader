@@ -54,18 +54,31 @@ void main(){
     colors = mix(pixcolor1, pixcolor2, f);
 
 
+
+    if(inPos.y < 0.4 && inPos.y >= 0.2)
+    {
+      float ff = smoothstep(.2, .4, inPos.y);
+      pixcolor1 = vec4(1.0, .95, .6, 1.0);
+      pixcolor2 = vec4(.2, .8, .2, 0);
+       colors = mix(pixcolor1, pixcolor2, ff);
+
+    }
+
+    if(inPos.y < 0.2 && inPos.y >= 0.0)
+    {
+       colors = vec4(1.0, .95, .6, 1);
+
+    }
+
+
     if(inPos.y < 0.0)
         {
-
           float rand = .01*sin(inPos.x/3.2 + tf*1.) + .08*sin(inPos.z/4.3 + tf*4.2) +
           .02*cos(inPos.y/5.0 + tf*1.0) + .007*cos(inPos.x*inPos.z + tf*3.0)
           + .01*cos(sin(inPos.x + 5.0*tf - tf*tf/100.0)) + .01*sin(sin(tf*.4))
           + .03*clamp(tan(sin(inPos.x + inPos.y) + cos(inPos.y*3.0) + tf*.5), 0., 1.0);
 
-
           colors = vec4(.4, .2 + .2*sin(inPos.x/2. + 2.0*tf) + rand, .9, 1);
-
-          //gl_Normal.y = 1;
         }
 
     if(((spaceship_pos.x-inPos.x*1.)*(spaceship_pos.x-inPos.x*1.) +
