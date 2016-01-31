@@ -12,8 +12,11 @@ uniform sampler2D tex;
 uniform vec3 spaceship_pos;
 uniform vec3 landing_point_pos;
 
+varying float tf;
+
 varying vec3 inPos;
 varying vec2 texCoord;
+
 
 varying mat4 cammat;
 varying vec3 exNormal;
@@ -53,7 +56,15 @@ void main(){
 
     if(inPos.y < 0.0)
         {
-          colors = vec4(.4, .4, .9, 1);
+
+          float rand = .01*sin(inPos.x/3.2 + tf*1.) + .08*sin(inPos.z/4.3 + tf*4.2) +
+          .02*cos(inPos.y/5.0 + tf*1.0) + .007*cos(inPos.x*inPos.z + tf*3.0)
+          + .01*cos(sin(inPos.x + 5.0*tf - tf*tf/100.0)) + .01*sin(sin(tf*.4))
+          + .03*clamp(tan(sin(inPos.x + inPos.y) + cos(inPos.y*3.0) + tf*.5), 0., 1.0);
+
+
+          colors = vec4(.4, .2 + .2*sin(inPos.x/2. + 2.0*tf) + rand, .9, 1);
+
           //gl_Normal.y = 1;
         }
 

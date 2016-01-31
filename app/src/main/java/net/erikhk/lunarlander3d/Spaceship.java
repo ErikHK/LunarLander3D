@@ -16,10 +16,12 @@ public class Spaceship {
 
     Model m;
     Mat4 T;
+    Mat4 Ro;
     Bitmap bm;
 
     public static final float gravity = -0.0006f;
     public boolean haslanded = false;
+    public boolean hascrashed = false;
     public boolean isthrusting = false;
     public float fuel = 100.0f;
     public float thrust = .0007f*2f;
@@ -32,27 +34,48 @@ public class Spaceship {
 
     public Spaceship(Context c)
     {
-        m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals, R.raw.spaceship_texture);
+        m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals, R.raw.spaceship_texture, R.drawable.texture);
         //T = VecMath.T(0,25f,0);
         T = VecMath.IdentityMatrix();
+        Ro = VecMath.IdentityMatrix();
         pos = new Vec3(8f, 10f, 8f);
     }
 
     public void DrawModel()
     {
 
-        Vec3 n = new Vec3(0,-1,0);
-        Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
-        phone_n = MainActivity.phone_n;
-        init_phone_n = MainActivity.init_phone_n;
-        Mat4 rot = VecMath.Mult(T, VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
-        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
+        if(!haslanded) {
+            Vec3 n = new Vec3(0, -1, 0);
+            Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
+            phone_n = MainActivity.phone_n;
+            init_phone_n = MainActivity.init_phone_n;
+            Mat4 rot = VecMath.Mult(T, VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
+            GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
+        }
+        else
+        {
+            GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(T.m));
+        }
 
+
+        //GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Ro.m));
         m.DrawModel();
     }
 
     public void move()
     {
+/*
+        Vec3 n = new Vec3(0,-1,0);
+        Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
+
+        Ro = VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang);
+
+        phone_n = MainActivity.phone_n;
+        init_phone_n = MainActivity.init_phone_n;
+        Mat4 rot = VecMath.Mult(T, Ro);
+        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
+*/
+
         Vec3 world_n = new Vec3(init_phone_n.x - phone_n.x, init_phone_n.y-phone_n.y, init_phone_n.z - phone_n.z);
         Vec3 xy = new Vec3(world_n.x, world_n.y, 0);
         Vec3 xz = new Vec3((phone_n.x-init_phone_n.x), 0, (phone_n.z-init_phone_n.z));
@@ -71,7 +94,7 @@ public class Spaceship {
             acc.z = -thrust * (float)Math.sin(phi);
             */
             if(fuel > 0.0f)
-            fuel -= .5;
+            fuel -= .3;
             GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), fuel);
             acc.x = thrust * xz.x/5.0f;
             //acc.y = thrust*(1 - (float)Math.sqrt( (xz.x)*(xz.x) + (xz.z)*(xz.z)  )/10.0f);

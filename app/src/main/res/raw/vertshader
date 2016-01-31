@@ -8,6 +8,7 @@ varying vec4 col;
 varying vec2 texCoord;
 
 varying vec3 inPos;
+varying float tf;
 
 uniform mat4 matrix;
 uniform mat4 projmatrix;
@@ -16,6 +17,7 @@ uniform float ang;
 uniform float fuel;
 uniform int draw_hud;
 uniform int drawterrain2;
+uniform float t;
 mat4 test;
 
 
@@ -34,7 +36,7 @@ void main(){
 
   if(pos.y < 0.0 && drawterrain2==1)
   {
-    gl_Position = projmatrix*cammatrix*matrix*vec4(pos.x, 0.0, pos.z, 1.0);
+    gl_Position = projmatrix*cammatrix*matrix*vec4(pos.x, .2*sin(pos.x/2. + 2.0*t), pos.z, 1.0);
     //gl_Normal.y = 1.0;
     //inNormal.y = 1.0;
   }
@@ -51,5 +53,6 @@ void main(){
   inPos = inPosition;
 
   texCoord = inTexCoord;
+  tf = t;
 
 }

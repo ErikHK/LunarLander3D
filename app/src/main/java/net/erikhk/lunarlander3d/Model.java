@@ -73,7 +73,7 @@ public class Model {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-    public Model(Context c, int vertresource, int normresource, int textureresource)
+    public Model(Context c, int vertresource, int normresource, int textureresource, int bm)
     {
         drawtex = true;
 
@@ -116,7 +116,7 @@ public class Model {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
             // Read in the resource
-            final Bitmap bitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.texture, options);
+            final Bitmap bitmap = BitmapFactory.decodeResource(c.getResources(), bm, options);
 
 
             // Set the active texture unit to texture unit 0.

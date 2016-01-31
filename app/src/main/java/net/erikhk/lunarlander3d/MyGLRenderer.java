@@ -32,11 +32,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     float angz=0, angy=0;
     public float width=922f;
     public float height=540f;
+    public float t;
     public Terrain terrain;
     public Spaceship spaceship;
     public LandingPoint lp;
     public FuelBar fuelbar;
     public Camera camera;
+    public Menu menu;
     public Context c;
 
     final int vertbuff[] = new int[3];
@@ -49,6 +51,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
+        t = 0;
         Shader.makeprogram();
 
         GLES20.glEnableVertexAttribArray(Shader.positionhandle);
@@ -68,6 +71,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         lp = new LandingPoint(c, terrain);
         fuelbar = new FuelBar(c);
         camera = new Camera();
+        menu = new Menu();
 
         GLES20.glClearColor(1f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -83,6 +87,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     //@Override
     public void onDrawFrame(GL10 gl)
     {
+        //increase and upload time
+        t += .01f;
+        GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "t"), t);
+
         //GLES20.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT
                 | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -91,12 +99,15 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 
         //Draw models
+        spaceship.DrawModel();
+
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 1);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 1);
         terrain.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 0);
-        spaceship.DrawModel();
+
+
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 1);
         lp.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 0);
@@ -113,7 +124,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 0);
-        
+
         if(MainActivity.istapping)
             spaceship.isthrusting = true;
         else
@@ -127,11 +138,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         float dist = VecMath.DistanceXZ(spaceship.pos, lp.pos);
 
-
         if(spaceship.pos.y > hh && dist > 1.0f)
             spaceship.move();
         else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + 2f)
             spaceship.move();
+        else if(dist < 1.0f)
+            spaceship.haslanded = true;
+        else //has crashed
+            spaceship.hascrashed = true;
+
+        if(spaceship.hascrashed)
+            menu.drawGameOver();
 
     }
 
