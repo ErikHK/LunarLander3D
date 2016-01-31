@@ -147,10 +147,23 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         else //has crashed
             spaceship.hascrashed = true;
 
-        if(spaceship.hascrashed)
+        if(spaceship.hascrashed || spaceship.haslanded) {
             menu.drawGameOver();
+            reset();
+        }
 
     }
+
+    public void reset()
+    {
+        spaceship.pos = new Vec3(terrain.size, 15f, terrain.size);
+        spaceship.hascrashed = false;
+        spaceship.haslanded = false;
+        spaceship.fuel = 100f;
+
+    }
+
+
 
     public FloatBuffer makedoublebuffer(float[] array)
     {
