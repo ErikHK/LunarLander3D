@@ -71,8 +71,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     }
 
-
-        //@Override
+    //@Override
     public void onSurfaceChanged(GL10 gl, int width_, int height_) {
         width = width_;
         height = height_;
@@ -113,7 +112,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 0);
 
 
-
         if(MainActivity.istapping)
             spaceship.isthrusting = true;
         else
@@ -127,10 +125,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         float dist = VecMath.DistanceXZ(spaceship.pos, lp.pos);
 
+
         if(spaceship.pos.y > hh && dist > 1.0f)
             spaceship.move();
         else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + 2f)
             spaceship.move();
+
     }
 
     public FloatBuffer makedoublebuffer(float[] array)

@@ -116,7 +116,7 @@ public class Model {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
             // Read in the resource
-            final Bitmap bitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.bitmap, options);
+            final Bitmap bitmap = BitmapFactory.decodeResource(c.getResources(), R.drawable.texture, options);
 
 
             // Set the active texture unit to texture unit 0.

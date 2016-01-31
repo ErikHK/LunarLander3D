@@ -67,7 +67,7 @@ public class Spaceship {
                     16f, 0f, 16f,
                     0.0f, 1.0f, 0.0f);
         else
-            cam = VecMath.lookAt(pos.x, pos.y + 3f, pos.z + 6f,
+            cam = VecMath.lookAt(pos.x, pos.y + 3f, pos.z + 4f,
                 pos.x, pos.y, pos.z,
                 0.0f, 1.0f, 0.0f);
 
@@ -90,7 +90,6 @@ public class Spaceship {
             //acc.y = thrust*(1 - (float)Math.sqrt( (xz.x)*(xz.x) + (xz.z)*(xz.z)  )/10.0f);
             acc.y = thrust * (float)Math.cos(ang);
             acc.z = thrust * xz.z/5.0f;
-
 
         }
 
