@@ -140,7 +140,7 @@ public class Model {
     }
 
 
-    public Model(Context c, float[] verts, float[] norms, float[] texverts, int[] indexarray, int vertexcount, int indexcount)
+    public Model(float[] verts, float[] norms, float[] texverts, int[] indexarray, int vertexcount, int indexcount)
     {
 
         vertbuff = makefloatbuffer(verts);

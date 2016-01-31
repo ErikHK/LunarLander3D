@@ -165,7 +165,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         spaceship.pos = new Vec3(terrain.size, 15f, terrain.size);
         spaceship.speed = new Vec3(0,0,0);
         spaceship.acc = new Vec3(0,0,0);
-        terrain.reset();
+        terrain.init_perlin(16);
+        terrain.generate_terrain(16);
+        lp.randomize_pos(terrain);
 
         spaceship.hascrashed = false;
         spaceship.haslanded = false;

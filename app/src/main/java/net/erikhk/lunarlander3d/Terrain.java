@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Terrain {
 
-    Model m;
+    public static Model m;
     static int[] p = new int[512];
     static int repeat = 0;
     static int size = 16;
@@ -25,7 +25,7 @@ public class Terrain {
     {
         //m = new Model(c, R.raw.terrain_verts, R.raw.terrain_normals);
         init_perlin(16);
-        m = generate_terrain(c, size);
+        generate_terrain(size);
 
     }
 
@@ -81,7 +81,7 @@ public class Terrain {
     }
 
 
-    public static Model generate_terrain(Context c, int size)
+    public static void generate_terrain(int size)
     {
             //init_perlin();
             //tex->width *= 1.5;
@@ -155,7 +155,7 @@ public class Terrain {
 
             // Create Model and upload to GPU:
 
-            Model model = new Model(c,
+            Model model = new Model(
                     vertexArray,
                     normalArray,
                     texCoordArray,
@@ -163,7 +163,7 @@ public class Terrain {
                     vertexCount,
                     triangleCount*3);
 
-            return model;
+        m = model;
     }
 
 
