@@ -64,6 +64,11 @@ public class Terrain {
 
     }
 
+    public void reset()
+    {
+        //m = generate_terrain(c, 16);
+
+    }
 
 
     public FloatBuffer makefloatbuffer(float[] array)

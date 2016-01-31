@@ -34,7 +34,7 @@ void main(){
 
   exNormal = transformedNormal;
 
-  if(pos.y < 0.0 && drawterrain2==1)
+  if(pos.y < -0.4 && drawterrain2==1)
   {
     gl_Position = projmatrix*cammatrix*matrix*vec4(pos.x, .2*sin(pos.x/2. + 2.0*t), pos.z, 1.0);
     //gl_Normal.y = 1.0;

@@ -73,7 +73,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         camera = new Camera();
         menu = new Menu();
 
-        GLES20.glClearColor(1f, 1f, 1f, 1f);
+        GLES20.glClearColor(.6f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
     }
 
@@ -165,6 +165,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         spaceship.pos = new Vec3(terrain.size, 15f, terrain.size);
         spaceship.speed = new Vec3(0,0,0);
         spaceship.acc = new Vec3(0,0,0);
+        terrain.reset();
 
         spaceship.hascrashed = false;
         spaceship.haslanded = false;
