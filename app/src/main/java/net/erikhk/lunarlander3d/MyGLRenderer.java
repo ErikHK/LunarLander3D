@@ -58,11 +58,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         bitm = Bitmap.createBitmap(256*4, 256*4, Bitmap.Config.ARGB_8888);
         Canvas cs = new Canvas(bitm);
 
-        cs.drawColor(Color.BLUE);
+        //cs.drawColor(Color.BLUE);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         p.setColor(Color.WHITE);
         p.setStyle(Paint.Style.FILL);
-        p.setTextSize(40*4);
+        p.setTextSize(40 * 4);
         //cs.drawPaint(p);
 
         cs.drawText("HEJSAN HEJSAN",40,40*4,p);
@@ -145,7 +145,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 1);
 
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         fuelbar.DrawModel();
+        GLES20.glDisable(GLES20.GL_BLEND);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 0);
