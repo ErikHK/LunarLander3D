@@ -5,6 +5,8 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
@@ -40,6 +42,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public Camera camera;
     public Menu menu;
     public Context c;
+    public static Bitmap bitm;
 
     final int vertbuff[] = new int[3];
 
@@ -51,6 +54,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
+        bitm = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
+        Canvas cs = new Canvas(bitm);
+
+        cs.drawColor(Color.BLUE);
+
+
         t = 0;
         Shader.makeprogram();
 
