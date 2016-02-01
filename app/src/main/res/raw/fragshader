@@ -7,6 +7,7 @@ uniform int drawterrain;
 uniform int draw_landing_point;
 uniform int draw_hudf;
 uniform int draw_spaceship;
+uniform int draw_skydome;
 
 uniform sampler2D tex0;
 
@@ -59,13 +60,17 @@ void main(){
   float f = smoothstep(.05, .9, lambert);
   vec4  pixcolor1 = vec4(1, 1, 1, 1);
   vec4  pixcolor2 = vec4(.8, .8, .8, 1);
+
+  //if(draw_skydome==1)
+  //  colors = vec4(.2, .5, .9, 1);
+
   if(draw_spaceship==1)
     colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex0, texCoord);
   if(drawterrain==1)
   {
     //colors = vec4(.3, .9, .3, 1)*lambert;
 
-    if(lambert>0.0)
+    if(lambert > 0.0)
     {
       f = smoothstep(.0, 1.0, lambert);
       //pixcolor1 = vec4(.2, .8, .2, 1);
@@ -85,7 +90,6 @@ void main(){
               + .03*clamp(tan(sin(inPos.x + inPos.y) + .02*cos(inPos.y*3.0) ), 0., 1.0);
 
     colors += vec4(0, .05*rando(vec2(int(inPos.x*20.0), int(inPos.z*20.0))) + rand*.1, 0, 0);
-
 
     if(inPos.y < 0.4 && inPos.y >= 0.2)
     {

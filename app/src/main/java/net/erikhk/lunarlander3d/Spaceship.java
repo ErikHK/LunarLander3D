@@ -14,7 +14,7 @@ import java.nio.FloatBuffer;
  */
 public class Spaceship {
 
-    Model m;
+    Model m,fire;
     Mat4 T;
     Mat4 Ro;
     Bitmap bm;
@@ -36,6 +36,8 @@ public class Spaceship {
     {
         m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals, R.raw.spaceship_texture,
                 R.drawable.texture, GLES20.GL_TEXTURE0);
+
+        fire = new Model(c, R.raw.plane_verts, R.raw.plane_normals);
         //T = VecMath.T(0,25f,0);
         T = VecMath.IdentityMatrix();
         Ro = VecMath.IdentityMatrix();

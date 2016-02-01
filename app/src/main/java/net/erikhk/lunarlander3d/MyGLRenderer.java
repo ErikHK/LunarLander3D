@@ -27,6 +27,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public LandingPoint lp;
     public FuelBar fuelbar;
     public Camera camera;
+    public Skydome skydome;
     public Menu menu;
     public Context c;
     public static Bitmap bitm;
@@ -82,6 +83,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         fuelbar = new FuelBar(c);
         camera = new Camera();
         menu = new Menu();
+        skydome = new Skydome(c);
 
         GLES20.glClearColor(.6f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -103,6 +105,14 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         if(t > 100.0*Math.PI)
             t = 0;
+
+        //GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydome"), 1);
+        //GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT
+        //        | GLES20.GL_DEPTH_BUFFER_BIT);
+        //GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        //skydome.DrawModel();
+        //GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        //GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydome"), 0);
 
         //GLES20.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT
