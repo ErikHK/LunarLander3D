@@ -91,6 +91,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         t += .01f;
         GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "t"), t);
 
+        if(t > 100.0*Math.PI)
+            t = 0;
+
         //GLES20.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT
                 | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -175,6 +178,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         MainActivity.waitForRestart = false;
         MainActivity.restart = false;
+        t = 0;
 
 
     }

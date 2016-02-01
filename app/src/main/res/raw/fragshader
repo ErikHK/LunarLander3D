@@ -48,9 +48,9 @@ void main(){
   vec4 colors;
 
   n = normalize( exNormal );
-  s = normalize(mat3(cammat)*normalize(vec3(.3,1,.3)));
+  s = normalize(mat3(cammat)*normalize(vec3(.1,1,.1)));
 
-  float lambert = pow(dot(n,s), 1.0);
+  float lambert = dot(n,s)-.001;
 
   float f = smoothstep(.05, .9, lambert);
   //vec4  pixcolor1 = vec4(.6, .05, .05, 1);
@@ -65,13 +65,15 @@ void main(){
   {
     //colors = vec4(.3, .9, .3, 1)*lambert;
 
-    f = smoothstep(.2, .9, lambert);
-    //pixcolor1 = vec4(.2, .8, .2, 1);
-    //pixcolor2 = vec4(.3, .9, .3, 1);
-    pixcolor1 = vec4(.65, 1.0, .46, 1);
-    pixcolor2 = vec4(.55, .9, .36, 1);
-    colors = mix(pixcolor1, pixcolor2, f);
-    //colors = pixcolor2;
+    if(lambert>0.0)
+    {
+      f = smoothstep(.0, 1.0, lambert);
+      //pixcolor1 = vec4(.2, .8, .2, 1);
+      //pixcolor2 = vec4(.3, .9, .3, 1);
+      pixcolor2 = vec4(.55, .9, .36, 1);
+      pixcolor1 = vec4(.25, .6, .06, 1);
+      colors = mix(pixcolor1, pixcolor2, f);
+    }
 
     //colors += vec4(0, 4.0*rando(vec2(inPos.x/3.0, inPos.x/3.0)), 0, 0);
 
@@ -87,7 +89,7 @@ void main(){
     {
       float ff = smoothstep(.2, .3, inPos.y);
       pixcolor1 = vec4(1.0, .95, .6, 1.0);
-      pixcolor2 = vec4(.65, 1.0, .46, 0);
+      pixcolor2 = vec4(.45, .7, .26, 0);
        colors = mix(pixcolor1, pixcolor2, ff);
 
     }

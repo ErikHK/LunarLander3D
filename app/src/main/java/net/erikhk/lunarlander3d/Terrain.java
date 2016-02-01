@@ -103,7 +103,7 @@ public class Terrain {
                 for (z = 0; z < size; z++)
                 {
                     //float height = 1 * (float)OctavePerlin(x / (8.0 * 16 * 4 * 4), z / (8.0 * 16 * 4 * 4), 0, 10, 10.0);
-                    float height = 20 * (float)OctavePerlin(x / (16.0 * 16 * 4 * 4 ), z / (16.0 * 16 * 4 * 4 ), 0, 10, 10.0) - 10f;
+                    float height = 30 * (float)OctavePerlin(x / (16.0 * 16 * 4 * 4 ), z / (16.0 * 16 * 4 * 4 ), 0, 10, 10.0) - 15f;
                     //float height = 1;
 
                     /*
@@ -116,11 +116,16 @@ public class Terrain {
                     */
                     // Vertex array. You need to scale this properly
                     vertexArray[(x + z * size)*3 + 0] = 2*x;//scale*(x-size/2);
-                    vertexArray[(x + z * size) * 3 + 1] = height;
+                    float mx=(x-7.5f)/7.5f, mz=(z-7.5f)/7.5f;
+                    float f = 0.0f;
+                    //f = sinc(mx, mz);
+                    f = linear_attenuation(mx, mz);
+
+                    vertexArray[(x + z * size) * 3 + 1] = height*f - .2f;
                     vertexArray[(x + z * size)*3 + 2] = 2*z;//scale*(z-size/2);
 
                     //store height for collision tests
-                    heights[x][z] = height;
+                    heights[x][z] = height*f-.2f;
 
                     // Normal vectors. You need to calculate these.
                     tmp_normal = calc_normal(vertexArray, x, z, size);
@@ -164,6 +169,37 @@ public class Terrain {
                     triangleCount*3);
 
         m = model;
+    }
+
+    public static float sinc(float mx, float mz)
+    {
+        float f = 0.0f;
+        if(mx != 0.0f && mz != 0.0f)
+            //f = (float) (Math.sin(Math.PI * mx) * Math.sin(Math.PI * mz) / (mx*mz*Math.PI*Math.PI));
+            f = (float) (Math.sin(Math.PI * mx) * Math.sin(Math.PI * mz) /(mx*mz*Math.PI*Math.PI) );
+        else if(mx != 0.0f)
+            f = (float) (Math.sin(Math.PI * mx) /(mx*Math.PI) );
+        else if(mz != 0.0f)
+            f = (float) (Math.sin(Math.PI * mz) /(mz*Math.PI) );
+
+        return f;
+    }
+
+    public static float linear_attenuation(float mx, float mz)
+    {
+        //mx and mz goes from -1 to 1
+        if(Math.abs(mx) < .95 && Math.abs(mz) < .95)
+            return 1.0f;
+
+        //if(Math.abs(mx) >= .85 && Math.abs(mz) >= .85)
+        //    return .5f;
+
+        //if(Math.abs(mx) >= .9 || Math.abs(mz) >= .9)
+        //    return 0.0f;
+
+
+        return 0.0f;
+
     }
 
 
