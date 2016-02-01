@@ -48,7 +48,7 @@ void main(){
   vec4 colors;
 
   n = normalize( exNormal );
-  s = normalize(mat3(cammat)*normalize(vec3(.1,1,.1)));
+  s = normalize(mat3(cammat)*normalize(vec3(.1,.3,.1)));
 
   float lambert = dot(n,s)-.001;
 
@@ -123,8 +123,10 @@ void main(){
     f = smoothstep(.2, .9, lambert);
     pixcolor1 = vec4(.8, .4, .0, 1);
     pixcolor2 = vec4(1.0, .6, .0, 1);
-    colors = mix(pixcolor1, pixcolor2, f);
+    //colors = mix(pixcolor1, pixcolor2, f)*texture2D(tex, texCoord);
     //colors = vec4(1.0, .6, .0, 1)*lambert;
+
+    colors = lambert*texture2D(tex, texCoord);
 
     //shadow on landing point
     if(((spaceship_pos.x-inPos.x*2. - landing_point_pos.x)*(spaceship_pos.x - inPos.x*2. - landing_point_pos.x) +

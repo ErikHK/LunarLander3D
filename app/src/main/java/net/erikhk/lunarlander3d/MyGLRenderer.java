@@ -58,7 +58,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         bitm = Bitmap.createBitmap(256*4, 256*4, Bitmap.Config.ARGB_8888);
         Canvas cs = new Canvas(bitm);
 
-        //cs.drawColor(Color.BLUE);
+        cs.drawColor(Color.BLUE);
         //Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         Paint p = new Paint();
         p.setColor(Color.WHITE);
