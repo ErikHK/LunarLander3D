@@ -2,9 +2,11 @@ precision mediump float;
 uniform vec4 u_color;
 
 uniform mat4 cammatrix;
+
 uniform int drawterrain;
 uniform int draw_landing_point;
 uniform int draw_hudf;
+uniform int draw_spaceship;
 
 uniform sampler2D tex0;
 
@@ -12,6 +14,7 @@ uniform sampler2D tex0;
 
 uniform vec3 spaceship_pos;
 uniform vec3 landing_point_pos;
+
 
 varying float tf;
 
@@ -54,14 +57,10 @@ void main(){
   float lambert = dot(n,s)-.001;
 
   float f = smoothstep(.05, .9, lambert);
-  //vec4  pixcolor1 = vec4(.6, .05, .05, 1);
-  //vec4  pixcolor2 = vec4(.8, .3, .3, 1);
   vec4  pixcolor1 = vec4(1, 1, 1, 1);
   vec4  pixcolor2 = vec4(.8, .8, .8, 1);
-  colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex0, texCoord);
-  //colors = texture2D(tex, texCoord) * lambert;
-  //colors = mix(pixcolor1, pixcolor2, f);
-
+  if(draw_spaceship==1)
+    colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex0, texCoord);
   if(drawterrain==1)
   {
     //colors = vec4(.3, .9, .3, 1)*lambert;
@@ -113,8 +112,8 @@ void main(){
         }
 
     //shadow on grass
-    if(((spaceship_pos.x-inPos.x*1.)*(spaceship_pos.x-inPos.x*1.) +
-    			(spaceship_pos.z-inPos.z*1.)*(spaceship_pos.z-inPos.z*1.) < 1.0))
+    if(( spaceship_pos.x-inPos.x*1.)*(spaceship_pos.x-inPos.x*1.) +
+    			(spaceship_pos.z-inPos.z*1.)*(spaceship_pos.z-inPos.z*1.) < 1.0 )
     				//colors -= vec4(.4,.4,.4,0);
     				colors = colors*.5;
   }
@@ -127,11 +126,12 @@ void main(){
     //colors = mix(pixcolor1, pixcolor2, f)*texture2D(tex, texCoord);
     //colors = vec4(1.0, .6, .0, 1)*lambert;
 
-    colors = lambert*texture2D(tex0, texCoord);
+    colors = lambert*texture2D(tex0, texCoord) + vec4(1.0, .5, .1, 1.0) * sin(3.*tf)*sin(3.*tf)/1.4;
 
     //shadow on landing point
-    if(((spaceship_pos.x-inPos.x*2. - landing_point_pos.x)*(spaceship_pos.x - inPos.x*2. - landing_point_pos.x) +
-        			(spaceship_pos.z - inPos.z*2. - landing_point_pos.z)*(spaceship_pos.z - inPos.z*2. - landing_point_pos.z) < .5))
+    float distdiff = spaceship_pos.y-inPos.y;
+    if(((spaceship_pos.x-inPos.x*4. - landing_point_pos.x)*(spaceship_pos.x - inPos.x*4. - landing_point_pos.x) +
+        			(spaceship_pos.z - inPos.z*4. - landing_point_pos.z)*(spaceship_pos.z - inPos.z*4. - landing_point_pos.z) < .7))
         				//colors -= vec4(.4,.4,.4,0);
         				colors = colors*.5;
   }

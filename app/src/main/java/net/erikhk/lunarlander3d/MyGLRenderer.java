@@ -112,7 +112,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 
         //Draw models
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_spaceship"), 1);
         spaceship.DrawModel();
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_spaceship"), 0);
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 1);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 1);
