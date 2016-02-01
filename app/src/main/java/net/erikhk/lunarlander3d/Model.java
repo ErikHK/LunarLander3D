@@ -116,8 +116,8 @@ public class Model {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
             // Read in the resource
-            //final Bitmap bitmap = BitmapFactory.decodeResource(c.getResources(), bm, options);
-            final Bitmap bitmap = MyGLRenderer.bitm;
+            final Bitmap bitmap = BitmapFactory.decodeResource(c.getResources(), bm, options);
+            //final Bitmap bitmap = MyGLRenderer.bitm;
 
             // Set the active texture unit to texture unit 0.
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);

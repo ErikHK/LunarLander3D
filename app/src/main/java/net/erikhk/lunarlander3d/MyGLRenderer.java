@@ -59,7 +59,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Canvas cs = new Canvas(bitm);
 
         //cs.drawColor(Color.BLUE);
-        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint p = new Paint();
         p.setColor(Color.WHITE);
         p.setStyle(Paint.Style.FILL);
         p.setTextSize(40 * 4);
