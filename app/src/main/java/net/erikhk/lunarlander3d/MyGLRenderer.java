@@ -10,22 +10,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLU;
-import android.opengl.GLUtils;
-import android.util.Log;
-import android.view.MotionEvent;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {

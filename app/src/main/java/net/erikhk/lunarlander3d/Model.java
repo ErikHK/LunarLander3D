@@ -28,6 +28,7 @@ public class Model {
     float[] verts, norms, texture;
 
     boolean drawtex = false;
+    String texName = "tex0";
 
 
     /** Store our model data in a float buffer. */
@@ -73,7 +74,7 @@ public class Model {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-    public Model(Context c, int vertresource, int normresource, int textureresource, int bm)
+    public Model(Context c, int vertresource, int normresource, int textureresource, int bm, int TEX)
     {
         drawtex = true;
 
@@ -120,8 +121,7 @@ public class Model {
             //final Bitmap bitmap = MyGLRenderer.bitm;
 
             // Set the active texture unit to texture unit 0.
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-
+            GLES20.glActiveTexture(TEX);
 
             // Bind to the texture in OpenGL
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
@@ -191,7 +191,7 @@ public class Model {
         GLES20.glEnableVertexAttribArray(Shader.normalhandle);
 
         //TEXTURE
-        mTextureUniformHandle = GLES20.glGetUniformLocation(Shader.program, "tex");
+        mTextureUniformHandle = GLES20.glGetUniformLocation(Shader.program, texName);
         mTextureCoordinateHandle = GLES20.glGetAttribLocation(Shader.program, "inTexCoord");
 
         // Set the active texture unit to texture unit 0.

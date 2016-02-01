@@ -34,7 +34,8 @@ public class Spaceship {
 
     public Spaceship(Context c)
     {
-        m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals, R.raw.spaceship_texture, R.drawable.landing_point_texture);
+        m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals, R.raw.spaceship_texture,
+                R.drawable.texture, GLES20.GL_TEXTURE0);
         //T = VecMath.T(0,25f,0);
         T = VecMath.IdentityMatrix();
         Ro = VecMath.IdentityMatrix();
@@ -43,6 +44,7 @@ public class Spaceship {
 
     public void DrawModel()
     {
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, m.textureHandle[0]);
 
         if(!haslanded) {
             Vec3 n = new Vec3(0, -1, 0);
