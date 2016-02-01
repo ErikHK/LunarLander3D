@@ -36,14 +36,14 @@ void main(){
 
   if(pos.y < -0.4 && drawterrain2==1)
   {
-    gl_Position = projmatrix*cammatrix*matrix*vec4(pos.x, .2*sin(pos.x/2. + 2.0*t), pos.z, 1.0);
+    gl_Position = projmatrix*cammatrix*matrix*vec4(pos.x, .5*sin(pos.x/3.0 + 2.0*t), pos.z, 1.0);
     //gl_Normal.y = 1.0;
     //inNormal.y = 1.0;
   }
   else if(draw_hud==1)
   {
-    gl_Position = projmatrix*vec4(pos.x*6.0*fuel/100.0+13.0, pos.y*2.0+8.0, pos.z-20.0, 1.0);
-
+    //gl_Position = projmatrix*vec4(pos.x*6.0*fuel/100.0+13.0, pos.y*2.0+8.0, pos.z-20.0, 1.0);
+    gl_Position = vec4(pos.x, pos.y, pos.z-1.0, 1.0);
   }
   else
     gl_Position = projmatrix*cammatrix*matrix*vec4(pos, 1.0);

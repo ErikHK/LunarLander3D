@@ -70,17 +70,19 @@ void main(){
       f = smoothstep(.0, 1.0, lambert);
       //pixcolor1 = vec4(.2, .8, .2, 1);
       //pixcolor2 = vec4(.3, .9, .3, 1);
-      pixcolor2 = vec4(.55, .9, .36, 1);
+      //pixcolor2 = vec4(.55, .9, .36, 1);
+      pixcolor2 = vec4(.87, 1.0, .55, 1);
       pixcolor1 = vec4(.25, .6, .06, 1);
       colors = mix(pixcolor1, pixcolor2, f);
+      //colors = pixcolor2;
     }
 
     //colors += vec4(0, 4.0*rando(vec2(inPos.x/3.0, inPos.x/3.0)), 0, 0);
 
-    float rand = .01*sin(inPos.x/3.2) + .08*sin(inPos.z/4.3) +
+    float rand = .1*sin(inPos.x/3.2) + .08*sin(inPos.z/4.3) +
               .02*cos(inPos.y/5.0) + .007*cos(inPos.x*inPos.z)
               + .01*cos(sin(inPos.x )) + .003*sin(sin(tf*.4))
-              + .03*clamp(tan(sin(inPos.x + inPos.y) + cos(inPos.y*3.0) ), 0., 1.0);
+              + .03*clamp(tan(sin(inPos.x + inPos.y) + .02*cos(inPos.y*3.0) ), 0., 1.0);
 
     colors += vec4(0, .05*rando(vec2(int(inPos.x*20.0), int(inPos.z*20.0))) + rand*.1, 0, 0);
 
@@ -89,9 +91,9 @@ void main(){
     {
       float ff = smoothstep(.2, .3, inPos.y);
       pixcolor1 = vec4(1.0, .95, .6, 1.0);
-      pixcolor2 = vec4(.45, .7, .26, 0);
+      //pixcolor2 = vec4(.45, .7, .26, 0);
+      pixcolor2 = vec4(.87, 1.0, .55, 1);
        colors = mix(pixcolor1, pixcolor2, ff);
-
     }
 
     if(inPos.y < 0.2 && inPos.y >= 0.0)
@@ -106,33 +108,35 @@ void main(){
           + .01*cos(sin(inPos.x + 5.0*tf - tf*tf/100.0)) + .01*sin(sin(tf*.4))
           + .03*clamp(tan(sin(inPos.x + inPos.y) + cos(inPos.y*3.0) + tf*.5), 0., 1.0);
 
-          colors = vec4(.4, .2 + .2*sin(inPos.x/2. + 2.0*tf) + rand, .9, 1);
+          colors = vec4(.4, .2 + .4*sin(inPos.x/3.0 + 2.0*tf) + rand, .9, 1);
         }
 
+    //shadow on grass
     if(((spaceship_pos.x-inPos.x*1.)*(spaceship_pos.x-inPos.x*1.) +
     			(spaceship_pos.z-inPos.z*1.)*(spaceship_pos.z-inPos.z*1.) < 1.0))
     				//colors -= vec4(.4,.4,.4,0);
-    				colors = colors*.3;
-
+    				colors = colors*.5;
   }
 
   if(draw_landing_point==1)
   {
-
     f = smoothstep(.2, .9, lambert);
     pixcolor1 = vec4(.8, .4, .0, 1);
     pixcolor2 = vec4(1.0, .6, .0, 1);
     colors = mix(pixcolor1, pixcolor2, f);
     //colors = vec4(1.0, .6, .0, 1)*lambert;
 
+    //shadow on landing point
     if(((spaceship_pos.x-inPos.x*2. - landing_point_pos.x)*(spaceship_pos.x - inPos.x*2. - landing_point_pos.x) +
         			(spaceship_pos.z - inPos.z*2. - landing_point_pos.z)*(spaceship_pos.z - inPos.z*2. - landing_point_pos.z) < .5))
-        				colors -= vec4(.4,.4,.4,0);
+        				//colors -= vec4(.4,.4,.4,0);
+        				colors = colors*.5;
   }
 
   if(draw_hudf==1)
   {
-    colors = vec4(.9, .1, .1, 1.0);
+    //colors = vec4(.9, .1, .1, 1.0);
+    colors = texture2D(tex, texCoord*1.0);
   }
 
   gl_FragColor = colors;
