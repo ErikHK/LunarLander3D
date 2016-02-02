@@ -66,9 +66,13 @@ public class Spaceship {
         //GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Ro.m));
         m.DrawModel();
 
-        Mat4 Tf = VecMath.Mult(rot, VecMath.T(0, -.8f, 0));
-        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Tf.m));
-        fire.DrawModel();
+        if(isthrusting) {
+            GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_exhaustf"), 1);
+            Mat4 Tf = VecMath.Mult(rot, VecMath.T(0, -.8f, 0));
+            GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Tf.m));
+            fire.DrawModel();
+            GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_exhaustf"), 0);
+        }
     }
 
     public void move()
