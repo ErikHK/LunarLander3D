@@ -70,7 +70,12 @@ public class Spaceship {
             GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_exhaustf"), 1);
             Mat4 Tf = VecMath.Mult(rot, VecMath.T(0, -.8f, 0));
             GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Tf.m));
+            GLES20.glEnable(GLES20.GL_BLEND);
+            GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+            GLES20.glDepthMask(false);
             fire.DrawModel();
+            GLES20.glDepthMask(true);
+            GLES20.glDisable(GLES20.GL_BLEND);
             GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_exhaustf"), 0);
         }
     }

@@ -83,7 +83,7 @@ void main(){
     if((inPos.y > (2.0 + r/10.0)*abs(inPos.x) + r/3.0 ))
       colors = vec4(1, .1, 0, 1) * (inPos.y+.5)/1.0;
     else
-      colors = vec4(1,1,1,1);
+      colors = vec4(0,0,0,0);
   }
   if(drawterrain==1)
   {
