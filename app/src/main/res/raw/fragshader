@@ -91,8 +91,12 @@ void main(){
   {
     float posy = inPos.y-.0;
     float posx = inPos.x-.0;
+    float pos = posy*posy + posx*posx;
+    float f = smoothstep(.05, .2, pos);
+
     if(posy*posy + posx*posx < .25 )
-      colors = vec4(draw_particle_color, 1);
+      //colors = vec4(draw_particle_color, sin(tf*20.0 + 50.0*draw_particle_color.b));
+      colors =  mix(vec4(draw_particle_color, sin(tf*20.0 + 50.0*draw_particle_color.b)), vec4(draw_particle_color,0), f);
     else
       colors = vec4(0,0,0,0);
   }

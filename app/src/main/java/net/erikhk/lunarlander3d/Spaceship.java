@@ -41,7 +41,7 @@ public class Spaceship {
         //T = VecMath.T(0,25f,0);
         T = VecMath.IdentityMatrix();
         Ro = VecMath.IdentityMatrix();
-        pos = new Vec3(8f, 10f, 8f);
+        pos = new Vec3(5f, 15f, 27f);
     }
 
     public void DrawModel()

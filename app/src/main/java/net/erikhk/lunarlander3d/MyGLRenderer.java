@@ -221,7 +221,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         sky = new Sky(c);
         particleSystem = new ParticleSystem();
 
-
         MainActivity.waitForRestart = false;
         MainActivity.restart = false;
         t = 0;
