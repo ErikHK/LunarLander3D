@@ -20,7 +20,6 @@ public class Terrain {
     Random r = new Random();
     static int scale = 1;
 
-
     public Terrain(Context c)
     {
         //m = new Model(c, R.raw.terrain_verts, R.raw.terrain_normals);
@@ -169,6 +168,11 @@ public class Terrain {
                     triangleCount*3);
 
         m = model;
+
+        vertexArray = null;
+        normalArray = null;
+        texCoordArray = null;
+        indexArray  = null;
     }
 
     public static float sinc(float mx, float mz)
@@ -277,6 +281,10 @@ public class Terrain {
             if (p[x] > 254)
                 p[x] = 253;
         }
+
+        //throw away perm and permints
+        perm = null;
+        permints = null;
     }
 
     public static int inc(int num) {

@@ -43,6 +43,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
+
+        /*
         bitm = Bitmap.createBitmap(256*4, 256*4, Bitmap.Config.ARGB_8888);
         Canvas cs = new Canvas(bitm);
 
@@ -56,6 +58,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         cs.drawText("HEJSAN HEJSAN",40,40*4,p);
         cs.drawCircle(10, 10, 20, p);
+        */
 
         //debug texture
         //cs.drawRect(0,0,256,256,p);
@@ -85,7 +88,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         camera = new Camera();
         menu = new Menu();
         sky = new Sky(c);
-        particleSystem = new ParticleSystem(c);
+        particleSystem = new ParticleSystem();
 
         GLES20.glClearColor(.6f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -200,9 +203,20 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     public void reset()
     {
+
         spaceship.pos = new Vec3(terrain.size, 15f, terrain.size);
         spaceship.speed = new Vec3(0,0,0);
         spaceship.acc = new Vec3(0,0,0);
+
+        for (int i = 0; i < particleSystem.numParticles; i++) {
+            particleSystem.m[i] = null;
+        }
+
+        particleSystem = null;
+        particleSystem = new ParticleSystem();
+
+
+        terrain.m = null;
         terrain.init_perlin(16);
         terrain.generate_terrain(16);
         lp.randomize_pos(terrain);
@@ -214,8 +228,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         MainActivity.waitForRestart = false;
         MainActivity.restart = false;
         t = 0;
-
-
     }
 
 

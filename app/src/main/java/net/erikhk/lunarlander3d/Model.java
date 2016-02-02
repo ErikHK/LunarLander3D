@@ -140,6 +140,28 @@ public class Model {
     }
 
 
+    public Model(float[] verts, float[] norms)
+    {
+
+        vertbuff = makefloatbuffer(verts);
+
+        normbuff = makefloatbuffer(norms);
+
+        numverts = vertbuff.capacity();
+
+        GLES20.glGenBuffers(4, buffers, 0);
+
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, vertbuff, GLES20.GL_STATIC_DRAW);
+        //unbind
+        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[1]);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, normbuff, GLES20.GL_STATIC_DRAW);
+    }
+
+
     public Model(float[] verts, float[] norms, float[] texverts, int[] indexarray, int vertexcount, int indexcount)
     {
 

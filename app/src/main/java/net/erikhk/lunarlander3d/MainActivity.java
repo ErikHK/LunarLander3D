@@ -12,6 +12,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -53,8 +54,10 @@ public class MainActivity extends Activity implements SensorEventListener, View.
     @Override
     public boolean onTouch(View v, MotionEvent e)
     {
-        if(waitForRestart && e.getAction() == MotionEvent.ACTION_DOWN)
+        if(waitForRestart && e.getAction() == MotionEvent.ACTION_DOWN) {
             restart = true;
+
+        }
 
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
             float x = e.getRawX();
