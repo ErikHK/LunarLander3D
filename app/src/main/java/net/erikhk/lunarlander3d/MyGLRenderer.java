@@ -203,27 +203,24 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     public void reset()
     {
-
-        spaceship.pos = new Vec3(terrain.size, 15f, terrain.size);
-        spaceship.speed = new Vec3(0,0,0);
-        spaceship.acc = new Vec3(0,0,0);
-
-        for (int i = 0; i < particleSystem.numParticles; i++) {
-            particleSystem.m[i] = null;
-        }
-
+        spaceship = null;
+        terrain = null;
+        lp = null;
+        fuelbar = null;
+        camera = null;
+        menu = null;
         particleSystem = null;
+        sky = null;
+
+        spaceship = new Spaceship(c);
+        terrain = new Terrain(c);
+        lp = new LandingPoint(c, terrain);
+        fuelbar = new FuelBar(c);
+        camera = new Camera();
+        menu = new Menu();
+        sky = new Sky(c);
         particleSystem = new ParticleSystem();
 
-
-        terrain.m = null;
-        terrain.init_perlin(16);
-        terrain.generate_terrain(16);
-        lp.randomize_pos(terrain);
-
-        spaceship.hascrashed = false;
-        spaceship.haslanded = false;
-        spaceship.fuel = 100f;
 
         MainActivity.waitForRestart = false;
         MainActivity.restart = false;
