@@ -155,6 +155,45 @@ public class VecMath {
         return m;
     }
 
+    public static Mat4 InvertMat4(Mat4 a) {
+        Mat4 b = new Mat4();
+
+        float c = a.m[0], d = a.m[1], e = a.m[2], g = a.m[3],
+                f = a.m[4], h = a.m[5], i = a.m[6], j = a.m[7],
+                k = a.m[8], l = a.m[9], o = a.m[10], m = a.m[11],
+                n = a.m[12], p = a.m[13], r = a.m[14], s = a.m[15],
+                A = c * h - d * f,
+                B = c * i - e * f,
+                t = c * j - g * f,
+                u = d * i - e * h,
+                v = d * j - g * h,
+                w = e * j - g * i,
+                x = k * p - l * n,
+                y = k * r - o * n,
+                z = k * s - m * n,
+                C = l * r - o * p,
+                D = l * s - m * p,
+                E = o * s - m * r,
+                q = 1 / (A * E - B * D + t * C + u * z - v * y + w * x);
+        b.m[0] = (h * E - i * D + j * C) * q;
+        b.m[1] = (-d * E + e * D - g * C) * q;
+        b.m[2] = (p * w - r * v + s * u) * q;
+        b.m[3] = (-l * w + o * v - m * u) * q;
+        b.m[4] = (-f * E + i * z - j * y) * q;
+        b.m[5] = (c * E - e * z + g * y) * q;
+        b.m[6] = (-n * w + r * t - s * B) * q;
+        b.m[7] = (k * w - o * t + m * B) * q;
+        b.m[8] = (f * D - h * z + j * x) * q;
+        b.m[9] = (-c * D + d * z - g * x) * q;
+        b.m[10] = (n * v - p * t + s * A) * q;
+        b.m[11] = (-k * v + l * t - m * A) * q;
+        b.m[12] = (-f * C + h * y - i * x) * q;
+        b.m[13] = (c * C - d * y + e * x) * q;
+        b.m[14] = (-n * u + p * B - r * A) * q;
+        b.m[15] = (k * u - l * B + o * A) * q;
+        return b;
+    }
+
 
     public static Mat4 Mult(Mat4 a, Mat4 b) // m = a * b
     {

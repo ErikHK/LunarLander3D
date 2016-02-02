@@ -53,9 +53,10 @@ public class Spaceship {
             Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
             phone_n = MainActivity.phone_n;
             init_phone_n = MainActivity.init_phone_n;
-            rot = VecMath.Mult(T, VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
+            Ro = VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang);
+            rot = VecMath.Mult(T, Ro);
             GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
-            Ro = rot;
+
         }
         else
         {
