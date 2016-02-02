@@ -18,6 +18,7 @@ uniform float fuel;
 uniform int draw_hud;
 uniform int drawterrain2;
 uniform float t;
+uniform int draw_skydome;
 mat4 test;
 
 
@@ -45,6 +46,8 @@ void main(){
     gl_Position = projmatrix*vec4(pos.x*6.0*fuel/100.0+13.0, pos.y*2.0+8.0, pos.z-20.0, 1.0);
     //gl_Position = vec4(pos.x*2., pos.y*2., pos.z-0.0, 1.0);
   }
+  else if(draw_skydome==1)
+    gl_Position = vec4(pos.x*2., pos.y*2., pos.z, 1.0);
   else
     gl_Position = projmatrix*cammatrix*matrix*vec4(pos, 1.0);
 

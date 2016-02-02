@@ -47,23 +47,28 @@ public class Spaceship {
     public void DrawModel()
     {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, m.textureHandle[0]);
-
+        Mat4 rot;
         if(!haslanded) {
             Vec3 n = new Vec3(0, -1, 0);
             Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
             phone_n = MainActivity.phone_n;
             init_phone_n = MainActivity.init_phone_n;
-            Mat4 rot = VecMath.Mult(T, VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
+            rot = VecMath.Mult(T, VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
             GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
         }
         else
         {
-            GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(T.m));
+            rot = T;
+            GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
         }
 
 
         //GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Ro.m));
         m.DrawModel();
+
+        Mat4 Tf = VecMath.Mult(rot, VecMath.T(0, -.8f, 0));
+        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Tf.m));
+        fire.DrawModel();
     }
 
     public void move()

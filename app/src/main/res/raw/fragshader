@@ -7,7 +7,7 @@ uniform int drawterrain;
 uniform int draw_landing_point;
 uniform int draw_hudf;
 uniform int draw_spaceship;
-uniform int draw_skydome;
+uniform int draw_skydomef;
 
 uniform sampler2D tex0;
 
@@ -61,8 +61,15 @@ void main(){
   vec4  pixcolor1 = vec4(1, 1, 1, 1);
   vec4  pixcolor2 = vec4(.8, .8, .8, 1);
 
-  //if(draw_skydome==1)
-  //  colors = vec4(.2, .5, .9, 1);
+  if(draw_skydomef==1)
+  {
+    f = smoothstep(-.45, .45, inPos.y);
+    pixcolor2 = vec4(.75, .75, 1., 1);
+    pixcolor1 = vec4(.95, .95, 1, 1);
+    colors = mix(pixcolor1, pixcolor2, f);
+    //colors = pixcolor2 * vec4(1, 1, ((inPos.y+.5) + .4), 1);
+
+  }
 
   if(draw_spaceship==1)
     colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex0, texCoord);
