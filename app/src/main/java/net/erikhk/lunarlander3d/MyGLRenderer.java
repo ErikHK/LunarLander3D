@@ -29,6 +29,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public Camera camera;
     public Sky sky;
     public Menu menu;
+    public ParticleSystem particleSystem;
     public Context c;
     public static Bitmap bitm;
 
@@ -84,6 +85,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         camera = new Camera();
         menu = new Menu();
         sky = new Sky(c);
+        particleSystem = new ParticleSystem(c);
 
         GLES20.glClearColor(.6f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -157,6 +159,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_spaceship"), 1);
         spaceship.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_spaceship"), 0);
+
+        particleSystem.DrawModel(spaceship);
 
 
         if(MainActivity.istapping)
