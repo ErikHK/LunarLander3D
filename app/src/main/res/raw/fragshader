@@ -96,7 +96,7 @@ void main(){
 
     if(posy*posy + posx*posx < .25 )
       //colors = vec4(draw_particle_color, sin(tf*20.0 + 50.0*draw_particle_color.b));
-      colors =  mix(vec4(draw_particle_color, sin(tf*20.0 + 50.0*draw_particle_color.b)), vec4(draw_particle_color,0), f);
+      colors =  mix(vec4(draw_particle_color, .5*sin(tf*20.0 + 50.0*draw_particle_color.b)), vec4(draw_particle_color,0), f);
     else
       colors = vec4(0,0,0,0);
   }

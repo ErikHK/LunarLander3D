@@ -44,7 +44,7 @@ public class ParticleSystem {
         if(s.isthrusting) {
             for (int i = 0; i < numParticles; i++) {
                 //Vec3 dir = new Vec3(.5f*r.nextFloat()-.2f, 1.0f*r.nextFloat()-1.4f, 0.5f*r.nextFloat());
-                Vec3 dir = new Vec3(.5f*r.nextFloat()-.2f, .7f*r.nextFloat()-.7f-.4f, (i-numParticles/2.0f)*.1f);
+                Vec3 dir = new Vec3(.5f*r.nextFloat()-.2f, .7f*r.nextFloat()-.9f-.4f, (i-numParticles/2.0f)*.1f);
                 float distScale = 1.0f*(.4f-dir.y);
 
                 //Vec3 dir = new Vec3(0, -.8f, 0);
