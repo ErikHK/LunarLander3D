@@ -78,8 +78,10 @@ void main(){
   {
     //if((2.0*inPos.x + inPos.y > .0))
     //  colors = vec4(1, .4, 0, 1) * (inPos.y+.5)/1.0;
-    if((inPos.y > 2.0*abs(inPos.x)))
-      colors = vec4(1, .1, 0, 1);
+    float r = rando(vec2(tf,tf))/2.0;
+
+    if((inPos.y > (2.0 + r/10.0)*abs(inPos.x) + r/3.0 ))
+      colors = vec4(1, .1, 0, 1) * (inPos.y+.5)/1.0;
     else
       colors = vec4(1,1,1,1);
   }
