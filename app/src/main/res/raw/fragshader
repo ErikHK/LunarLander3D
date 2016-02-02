@@ -75,7 +75,14 @@ void main(){
   if(draw_spaceship==1)
     colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex0, texCoord);
   if(draw_exhaustf==1)
-    colors = vec4(1, .4, 0, 1) * (inPos.y+.5)/1.0;
+  {
+    //if((2.0*inPos.x + inPos.y > .0))
+    //  colors = vec4(1, .4, 0, 1) * (inPos.y+.5)/1.0;
+    if((inPos.y > 2.0*abs(inPos.x)))
+      colors = vec4(1, .1, 0, 1);
+    else
+      colors = vec4(1,1,1,1);
+  }
   if(drawterrain==1)
   {
     //colors = vec4(.3, .9, .3, 1)*lambert;
