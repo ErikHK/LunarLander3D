@@ -55,11 +55,13 @@ public class Spaceship {
             init_phone_n = MainActivity.init_phone_n;
             rot = VecMath.Mult(T, VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang));
             GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
+            Ro = rot;
         }
         else
         {
             rot = T;
             GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
+            //Ro = rot;
         }
 
 
