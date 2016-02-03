@@ -26,16 +26,15 @@ public class LandingPoint {
         int tries=0;
 
         float distToSpaceship = (float)Math.sqrt((pos.x-2)*(pos.x-2) + (pos.y-27)*(pos.y-27));
-        while(t.getHeight(pos.x, pos.z) <= 0.0f && tries < 10000 && distToSpaceship > 5)
-        {
-            distToSpaceship = (float)Math.sqrt((pos.x-2)*(pos.x-2) + (pos.y-27)*(pos.y-27));
-            pos.x = 30*r.nextFloat()+1;
-            pos.z = 30*r.nextFloat()+1;
+            while (t.getHeight(pos.x, pos.z) <= 0.0f && tries < 100 && distToSpaceship > 1) {
+                distToSpaceship = (float) Math.sqrt((pos.x - 2) * (pos.x - 2) + (pos.y - 27) * (pos.y - 27));
+                pos.x = 30 * r.nextFloat() + 1;
+                pos.z = 30 * r.nextFloat() + 1;
 
-            tries++;
-        }
+                tries++;
+            }
 
-        pos.y = t.getHeight((int)pos.x, (int)pos.z);
+        pos.y = t.getHeight(pos.x, pos.z);
         if(pos.y < 0)
             pos.y = -.1f;
 
@@ -57,15 +56,15 @@ public class LandingPoint {
 
         int tries=0;
 
-        while(t.getHeight(pos.x, pos.z) <= 0.0f && tries < 1000)
+        while(t.getHeight(pos.x, pos.z) <= 0.0f && tries < 200)
         {
-            pos.x = 30*r.nextFloat()+1;
-            pos.z = 30*r.nextFloat()+1;
+            pos.x = 25*r.nextFloat()+2;
+            pos.z = 25*r.nextFloat()+2;
 
             tries++;
         }
 
-        pos.y = t.getHeight((int)pos.x, (int)pos.z);
+        pos.y = t.getHeight(pos.x, pos.z);
         if(pos.y < 0)
             pos.y = -.1f;
     }

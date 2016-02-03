@@ -19,10 +19,14 @@ public class Terrain {
     static float[][] heights = new float[size][size];
     Random r = new Random();
     static int scale = 1;
+    public float[] vertexArray = new float[size*size*3];
 
     public Terrain(Context c)
     {
         //m = new Model(c, R.raw.terrain_verts, R.raw.terrain_normals);
+        for (int i = 0; i < size*size*3; i++) {
+            vertexArray[i] = 0.0f;
+        }
         init_perlin(16);
         generate_terrain(size);
 
@@ -30,7 +34,65 @@ public class Terrain {
 
     public float getHeight(float x, float z)
     {
-        return heights[(int)(x/2)][(int)(z/2)];
+        //if(vertexArray == null)
+        //    return 0;
+
+        int quad = (int)( (Math.floor(x/2.0) + Math.floor(z/2.0)*size )*3);
+        boolean choose_upper = false;
+
+        Vec3[] corners = new Vec3[3];
+        corners[0] = new Vec3();
+        corners[1] = new Vec3();
+        corners[2] = new Vec3();
+
+        if( (x-Math.floor(x)) + (z-Math.floor(z)) > 1)
+                choose_upper = true;
+
+            if(choose_upper)
+            {
+                corners[0].x = vertexArray[quad + (1 + 1*size)*3 + 0];
+                corners[0].y = vertexArray[quad + (1 + 1*size)*3 + 1];
+                corners[0].z = vertexArray[quad + (1 + 1*size)*3 + 2];
+
+                corners[1].x = vertexArray[quad + (0 + 1*size)*3 + 0];
+                corners[1].y = vertexArray[quad + (0 + 1*size)*3 + 1];
+                corners[1].z = vertexArray[quad + (0 + 1*size)*3 + 2];
+
+                corners[2].x = vertexArray[quad + (1 + 0*size)*3 + 0];
+                corners[2].y = vertexArray[quad + (1 + 0*size)*3 + 1];
+                corners[2].z = vertexArray[quad + (1 + 0*size)*3 + 2];
+
+            }else{
+
+                corners[0].x = vertexArray[quad + (0 + 0*size)*3 + 0];
+                corners[0].y = vertexArray[quad + (0 + 0*size)*3 + 1];
+                corners[0].z = vertexArray[quad + (0 + 0*size)*3 + 2];
+
+                corners[1].x = vertexArray[quad + (1 + 0*size)*3 + 0];
+                corners[1].y = vertexArray[quad + (1 + 0*size)*3 + 1];
+                corners[1].z = vertexArray[quad + (1 + 0*size)*3 + 2];
+
+                corners[2].x = vertexArray[quad + (0 + 1*size)*3 + 0];
+                corners[2].y = vertexArray[quad + (0 + 1*size)*3 + 1];
+                corners[2].z = vertexArray[quad + (0 + 1*size)*3 + 2];
+            }
+
+            Vec3 vec1, vec2, normal;
+            //Plane equation is given as Ax + By + Cz + D = 0
+            float A,B,C,D;
+            vec1 = VecMath.VectorSub(corners[1], corners[0]);
+            vec2 = VecMath.VectorSub(corners[2], corners[0]);
+            normal = VecMath.Normalize(VecMath.CrossProduct(vec2, vec1));
+            A = normal.x;
+            B = normal.y;
+            C = normal.z;
+            D = -(A*corners[0].x + B*corners[0].y + C*corners[0].z);
+
+            float y = (-D-C*z-A*x)/B;
+
+            return y;
+        //return corners[0].y;
+        //return heights[(int)(x/2)][(int)(z/2)];
     }
 
     public void DrawModel()
@@ -80,7 +142,7 @@ public class Terrain {
     }
 
 
-    public static void generate_terrain(int size)
+    public void generate_terrain(int size)
     {
             //init_perlin();
             //tex->width *= 1.5;
@@ -156,6 +218,8 @@ public class Terrain {
                 }
 
             // End of terrain generation
+
+        this.vertexArray = vertexArray;
 
             // Create Model and upload to GPU:
 
