@@ -107,8 +107,8 @@ void main(){
   {
     //colors = vec4(.3, .9, .3, 1)*lambert;
 
-    if(lambert > 0.0)
-    {
+    //if(lambert > 0.0)
+    //{
       f = smoothstep(.0, 1.0, lambert);
       //pixcolor1 = vec4(.2, .8, .2, 1);
       //pixcolor2 = vec4(.3, .9, .3, 1);
@@ -117,7 +117,7 @@ void main(){
       pixcolor1 = vec4(.25, .6, .06, 1);
       colors = mix(pixcolor1, pixcolor2, f);
       //colors = pixcolor2;
-    }
+    //}
 
     //colors += vec4(0, 4.0*rando(vec2(inPos.x/3.0, inPos.x/3.0)), 0, 0);
 
@@ -182,6 +182,7 @@ void main(){
     //colors = vec4(.9, .1, .1, 1.0);
     colors = texture2D(tex0, texCoord*1.0);
   }
+
 
   gl_FragColor = colors;
 

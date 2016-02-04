@@ -31,7 +31,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public Menu menu;
     public ParticleSystem particleSystem;
     public Context c;
-    public static Bitmap bitm;
+    //public static Bitmap bitm;
 
     final int vertbuff[] = new int[3];
 
@@ -78,8 +78,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 0f, 0f, 0f,
                 0.0f, 1.0f, 0.0f);
 
-        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "projmatrix"), 1, true, makedoublebuffer(projectionMatrix.m));
-        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "cammatrix"), 1, true, makedoublebuffer(cam.m));
+        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "projmatrix"), 1, true, VecMath.makefloatbuffer(projectionMatrix.m));
+        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(Shader.program, "cammatrix"), 1, true, VecMath.makefloatbuffer(cam.m));
 
         spaceship = new Spaceship(c);
         terrain = new Terrain(c);
@@ -124,12 +124,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydome"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydomef"), 0);
 
+
         //GLES20.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
         //GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT
         //        | GLES20.GL_DEPTH_BUFFER_BIT);
-        GLES20.glUniform4f(Shader.colorhandle, 1.0f, 0.0f, MainActivity.phone_ang, 1.0f);
-        GLES20.glUniform1f(Shader.anghandle, angz);
-
+        //GLES20.glUniform4f(Shader.colorhandle, 1.0f, 0.0f, MainActivity.phone_ang, 1.0f);
+        //GLES20.glUniform1f(Shader.anghandle, angz);
 
         //Draw models
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 1);
@@ -145,6 +145,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         fuelbar.update(spaceship.fuel);
         camera.update(spaceship);
+
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 1);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 1);
@@ -200,6 +201,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
               reset();
         }
 
+
     }
 
     public void reset()
@@ -225,18 +227,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         MainActivity.waitForRestart = false;
         MainActivity.restart = false;
         t = 0;
-    }
-
-
-
-    public FloatBuffer makedoublebuffer(float[] array)
-    {
-
-        FloatBuffer doublebuff = ByteBuffer.allocateDirect(array.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-
-        doublebuff.put(array).position(0);
-
-        return doublebuff;
     }
 
 

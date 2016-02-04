@@ -19,10 +19,12 @@ import java.nio.IntBuffer;
  */
 public class Model {
 
-    public static int vb, ib, nb, tb, numverts;
+    public static int vb, ib, nb, tb;
     public static FloatBuffer vertbuff, normbuff, texbuff;
     public static IntBuffer indexbuff;
     int buffers[] = new int[4];
+
+    public int numverts;
 
     String verts_s, norms_s, texture_s;
     float[] verts, norms, texture;
@@ -58,20 +60,21 @@ public class Model {
         norms = stringToFloats(norms_s);
         normbuff = makefloatbuffer(norms);
 
-        numverts = vertbuff.capacity();
+        //numverts = vertbuff.capacity();
+        numverts = verts.length/9 - 1;
 
-        GLES20.glGenBuffers(4, buffers, 0);
+        GLES20.glGenBuffers(2, buffers, 0);
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, vertbuff, GLES20.GL_STATIC_DRAW);
         //unbind
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[1]);
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, normbuff, GLES20.GL_STATIC_DRAW);
         //unbind
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
     public Model(Context c, int vertresource, int normresource, int textureresource, int bm, int TEX)
@@ -86,7 +89,8 @@ public class Model {
         norms = stringToFloats(norms_s);
         normbuff = makefloatbuffer(norms);
 
-        numverts = vertbuff.capacity();
+        //numverts = vertbuff.capacity();
+        numverts = verts.length/9 - 1;
 
         texture_s = readTxt(c, textureresource);
         texture = stringToFloats(texture_s);
@@ -147,9 +151,10 @@ public class Model {
 
         normbuff = makefloatbuffer(norms);
 
-        numverts = vertbuff.capacity();
+        //numverts = vertbuff.capacity();
+        numverts = verts.length/3;
 
-        GLES20.glGenBuffers(4, buffers, 0);
+        GLES20.glGenBuffers(2, buffers, 0);
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, vertbuff, GLES20.GL_STATIC_DRAW);
@@ -173,7 +178,8 @@ public class Model {
 
         indexbuff = makeintbuffer(indexarray);
 
-        numverts = vertbuff.capacity();
+        //numverts = vertbuff.capacity();
+        numverts = verts.length/3;
 
         GLES20.glGenBuffers(4, buffers, 0);
 
@@ -212,10 +218,6 @@ public class Model {
         GLES20.glVertexAttribPointer(Shader.normalhandle, 3, GLES20.GL_FLOAT, false, 0, 0);
         GLES20.glEnableVertexAttribArray(Shader.normalhandle);
 
-        //TEXTURE
-        mTextureUniformHandle = GLES20.glGetUniformLocation(Shader.program, texName);
-        mTextureCoordinateHandle = GLES20.glGetAttribLocation(Shader.program, "inTexCoord");
-
         // Set the active texture unit to texture unit 0.
         //GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 
@@ -226,6 +228,11 @@ public class Model {
         //GLES20.glUniform1i(mTextureUniformHandle, 0);
 
         if(drawtex) {
+
+            //TEXTURE
+            mTextureUniformHandle = GLES20.glGetUniformLocation(Shader.program, texName);
+            mTextureCoordinateHandle = GLES20.glGetAttribLocation(Shader.program, "inTexCoord");
+
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[2]);
             GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
             GLES20.glVertexAttribPointer(mTextureCoordinateHandle, 2, GLES20.GL_FLOAT, false,
@@ -234,9 +241,13 @@ public class Model {
             GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
         }
 
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
+        //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
+        //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() );
+        //int cap = vertbuff.capacity();
+        //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() );
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, numverts );
 
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
     }
 
