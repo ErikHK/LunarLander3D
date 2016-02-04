@@ -11,6 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -27,6 +28,10 @@ public class MainActivity extends Activity implements SensorEventListener, View.
     public static Vec3 phone_n = new Vec3();
     public static Vec3 init_phone_n = new Vec3();
     public static float phone_ang = 0;
+
+    public static float swidth;
+    public static float sheight;
+
 
     private GLSurfaceView glView;
     public static String spaceship_verts_s;
@@ -89,6 +94,15 @@ public class MainActivity extends Activity implements SensorEventListener, View.
         glView.setRenderer(new MyGLRenderer(this));
         this.setContentView(glView);
         glView.setOnTouchListener(this);
+
+        Display d = getWindowManager().getDefaultDisplay();
+        Point p = new Point();
+        d.getSize(p);
+        swidth = p.x;
+        sheight = p.y;
+
+
+
 
         spaceship_verts_s = readTxt(R.raw.spaceship_verts);
         spaceship_verts = stringToFloats(spaceship_verts_s);

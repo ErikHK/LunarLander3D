@@ -19,8 +19,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private FloatBuffer vertbuffer, normbuffer;
     int count = 0;
     float angz=0, angy=0;
-    public float width=922f;
-    public float height=540f;
     public float t;
     public Terrain terrain;
     public Spaceship spaceship;
@@ -33,11 +31,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public Context c;
     //public static Bitmap bitm;
 
-    final int vertbuff[] = new int[3];
-
     public MyGLRenderer(Context c_)
     {
         this.c = c_;
+
     }
 
     @Override
@@ -71,7 +68,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         GLES20.glEnableVertexAttribArray(Shader.positionhandle);
 
-        float ratio = width / height;
+        float ratio = MainActivity.swidth / MainActivity.sheight;
         Mat4 projectionMatrix = VecMath.frustum(-.1f * ratio, .1f * ratio, -.1f, .1f, 0.2f, 750f);
 
         Mat4 cam = VecMath.lookAt(0f, 1f, 20f,
@@ -96,15 +93,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     //@Override
     public void onSurfaceChanged(GL10 gl, int width_, int height_) {
-        width = width_;
-        height = height_;
         GLES20.glViewport(0, 0, width_, height_);
     }
 
     //@Override
     public void onDrawFrame(GL10 gl)
     {
-
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT
                 | GLES20.GL_DEPTH_BUFFER_BIT);
 
