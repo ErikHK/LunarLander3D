@@ -152,7 +152,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-        fuelbar.DrawModel();
+        //fuelbar.DrawModel();
         GLES20.glDisable(GLES20.GL_BLEND);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -172,8 +172,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             spaceship.isthrusting = false;
 
         float hh = 0;
-        if(spaceship.pos.x >= 0 && spaceship.pos.x < 32 && spaceship.pos.z >= 0 && spaceship.pos.z < 32)
+        if(spaceship.pos.x >= 0 && spaceship.pos.x < 30 && spaceship.pos.z >= 0 && spaceship.pos.z < 30)
             hh = terrain.getHeight(spaceship.pos.x, spaceship.pos.z);
+
         if(hh < 0)
             hh = 0;
 
@@ -190,7 +191,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
 
         if(spaceship.hascrashed || spaceship.haslanded) {
-            menu.drawGameOver();
+            //menu.drawGameOver();
 
             //tell it to wait for restart
             MainActivity.waitForRestart = true;
