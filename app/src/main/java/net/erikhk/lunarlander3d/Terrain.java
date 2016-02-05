@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Terrain {
 
-    public static Model m;
+    public static Model m, ocean;
     static int[] p = new int[512];
     static int repeat = 0;
     static int size = 16;
@@ -29,6 +29,8 @@ public class Terrain {
         }
         init_perlin(16);
         generate_terrain(size);
+
+        ocean = new Model(c,R.raw.plane_verts, R.raw.plane_normals);
 
     }
 
@@ -97,6 +99,8 @@ public class Terrain {
 
     public void DrawModel()
     {
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 1);
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 1);
 
         //Mat4 M = VecMath.Mult(VecMath.T(-scale*size/2,0,-scale*size/2), VecMath.S(1.f,1.f,1.f));
         Mat4 M = VecMath.Mult(VecMath.T(0,0,0), VecMath.S(1.f,1.f,1.f));
@@ -122,6 +126,14 @@ public class Terrain {
         //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() * 4 * 32 );
 
         //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain2"), 0);
+/*
+        Mat4 M2 = VecMath.Mult(VecMath.T(0,-2.f,0), VecMath.Mult(VecMath.Rx((float) Math.PI / 2.0f), VecMath.S(1000, 1000, 1000)));
+        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(M2.m));
+        ocean.DrawModel();
+*/
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "drawterrain"), 0);
 
     }
 

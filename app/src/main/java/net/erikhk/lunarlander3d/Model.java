@@ -144,6 +144,75 @@ public class Model {
     }
 
 
+    public Model(Context c, int vertresource, int normresource, int textureresource, Bitmap bm)
+    {
+        drawtex = true;
+
+        verts_s = readTxt(c, vertresource);
+        verts = stringToFloats(verts_s);
+        vertbuff = makefloatbuffer(verts);
+
+        norms_s = readTxt(c, normresource);
+        norms = stringToFloats(norms_s);
+        normbuff = makefloatbuffer(norms);
+
+        texture_s = readTxt(c, textureresource);
+        texture = stringToFloats(texture_s);
+        texbuff = makefloatbuffer(texture);
+
+
+        //numverts = vertbuff.capacity();
+        numverts = verts.length/9 - 1;
+
+
+        GLES20.glGenBuffers(4, buffers, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[0]);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, vertbuff, GLES20.GL_STATIC_DRAW);
+        //unbind
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[1]);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertbuff.capacity() * 4, normbuff, GLES20.GL_STATIC_DRAW);
+        //unbind
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[2]);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, texbuff.capacity() * 2, texbuff, GLES20.GL_STATIC_DRAW);
+        //unbind
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+
+
+        GLES20.glGenTextures(1, textureHandle, 0);
+        if (textureHandle[0] != 0)
+        {
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;   // No pre-scaling
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            // Read in the resource
+            final Bitmap bitmap = bm;
+            //final Bitmap bitmap = MyGLRenderer.bitm;
+
+            // Set the active texture unit to texture unit 0.
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+
+            // Bind to the texture in OpenGL
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+
+            // Set filtering
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+
+            // Load the bitmap into the bound texture.
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bm, 0);
+
+            // Recycle the bitmap, since its data has been loaded into OpenGL.
+            //bitmap.recycle();
+        }
+
+    }
+
+
     public Model(float[] verts, float[] norms)
     {
 
@@ -151,7 +220,6 @@ public class Model {
 
         normbuff = makefloatbuffer(norms);
 
-        //numverts = vertbuff.capacity();
         numverts = verts.length/3;
 
         GLES20.glGenBuffers(2, buffers, 0);
@@ -227,11 +295,11 @@ public class Model {
         // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
         //GLES20.glUniform1i(mTextureUniformHandle, 0);
 
-        if(drawtex) {
+        //TEXTURE
+        mTextureUniformHandle = GLES20.glGetUniformLocation(Shader.program, "tex0");
+        mTextureCoordinateHandle = GLES20.glGetAttribLocation(Shader.program, "inTexCoord");
 
-            //TEXTURE
-            mTextureUniformHandle = GLES20.glGetUniformLocation(Shader.program, texName);
-            mTextureCoordinateHandle = GLES20.glGetAttribLocation(Shader.program, "inTexCoord");
+        if(drawtex) {
 
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, buffers[2]);
             GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
@@ -245,15 +313,12 @@ public class Model {
         //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() );
         //int cap = vertbuff.capacity();
         //GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertbuff.capacity() );
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, numverts );
 
-        //GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, numverts);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-
     private String readTxt(Context c, int id){
-
         InputStream inputStream = c.getResources().openRawResource(id);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
