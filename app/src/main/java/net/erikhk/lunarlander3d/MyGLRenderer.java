@@ -172,7 +172,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             spaceship.hascrashed = true;
 
         if(spaceship.hascrashed || spaceship.haslanded) {
-            menu.drawGameOver();
+
+            if(spaceship.hascrashed)
+                menu.drawGameOver();
+            else if(spaceship.haslanded)
+                menu.drawSuccess();
 
             //tell it to wait for restart
             MainActivity.waitForRestart = true;
