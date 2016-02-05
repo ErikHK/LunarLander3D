@@ -89,6 +89,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         GLES20.glClearColor(.6f, 1f, 1f, 1f);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
+        GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), spaceship.fuel);
     }
 
     //@Override
@@ -134,8 +136,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-        //fuelbar.DrawModel();
-        //menu.drawGameOver();
+        fuelbar.DrawModel();
         GLES20.glDisable(GLES20.GL_BLEND);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -190,6 +191,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     public void reset()
     {
+
         spaceship = null;
         terrain = null;
         lp = null;
@@ -200,6 +202,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         sky = null;
 
         spaceship = new Spaceship(c);
+        GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), spaceship.fuel);
         terrain = new Terrain(c);
         lp = new LandingPoint(c, terrain);
         fuelbar = new FuelBar(c);

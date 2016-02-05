@@ -11,6 +11,7 @@ uniform int draw_spaceship;
 uniform int draw_skydomef;
 uniform int draw_exhaustf;
 uniform int draw_particlesf;
+uniform int draw_fuelbar_backgroundf;
 uniform vec3 draw_particle_color;
 
 uniform sampler2D tex0;
@@ -179,6 +180,10 @@ void main(){
   if(draw_hudf==1)
   {
     colors = vec4(.9, .1, .1, 1.0);
+
+    if(draw_fuelbar_backgroundf==1)
+      colors = vec4(.5,.5,.5,.5);
+
     //colors = texture2D(tex0, texCoord*1.0);
   }
 
