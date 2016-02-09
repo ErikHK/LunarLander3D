@@ -14,9 +14,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-/**
- * Created by erikhk on 28/1/2016.
- */
+
 public class Model {
 
     public static int vb, ib, nb, tb;
@@ -48,7 +46,6 @@ public class Model {
     /** This is a handle to our texture data. */
     private int mTextureDataHandle;
     final int[] textureHandle = new int[1];
-
 
     public Model(Context c, int vertresource, int normresource)
     {
@@ -180,7 +177,6 @@ public class Model {
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, texbuff.capacity() * 2, texbuff, GLES20.GL_STATIC_DRAW);
         //unbind
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
-
 
         GLES20.glGenTextures(1, textureHandle, 0);
         if (textureHandle[0] != 0)

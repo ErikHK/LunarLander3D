@@ -85,17 +85,6 @@ public class Spaceship {
 
     public void move()
     {
-/*
-        Vec3 n = new Vec3(0,-1,0);
-        Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
-
-        Ro = VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang);
-
-        phone_n = MainActivity.phone_n;
-        init_phone_n = MainActivity.init_phone_n;
-        Mat4 rot = VecMath.Mult(T, Ro);
-        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
-*/
 
         Vec3 world_n = new Vec3(init_phone_n.x - phone_n.x, init_phone_n.y-phone_n.y, init_phone_n.z - phone_n.z);
         Vec3 xy = new Vec3(world_n.x, world_n.y, 0);
@@ -123,7 +112,6 @@ public class Spaceship {
             acc.z = thrust * xz.z/5.0f;
 
         }
-
         else
             acc.y = gravity;
 

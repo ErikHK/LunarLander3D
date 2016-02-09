@@ -191,7 +191,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     public void reset()
     {
-
         spaceship = null;
         terrain = null;
         lp = null;
