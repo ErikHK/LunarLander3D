@@ -15,7 +15,7 @@ uniform int draw_fuelbarf;
 uniform int draw_fuelbar_backgroundf;
 uniform int draw_speedometerf;
 
-uniform vec3 spaceship_speed;
+uniform vec3 spaceship_speedf;
 uniform vec3 draw_particle_color;
 
 uniform sampler2D tex0;
@@ -58,7 +58,6 @@ highp float rando(vec2 co)
 
 
 void main(){
-  //lightCamMatrix = mat3(cammatrix);
   vec4 colors;
 
   n = normalize( exNormal );
@@ -79,7 +78,8 @@ void main(){
     //colors = pixcolor2 * vec4(1, 1, ((inPos.y+.5) + .4), 1);
   }
 
-  if(draw_spaceship==1)
+  else if(draw_spaceship==1)
+  {
     colors = mix(pixcolor1, pixcolor2, f) * texture2D(tex0, texCoord);
   if(draw_exhaustf==1)
   {
@@ -95,7 +95,9 @@ void main(){
     else
       colors = vec4(0,0,0,0);
   }
-  if(draw_particlesf==1)
+
+  }
+  else if(draw_particlesf==1)
   {
     float posy = inPos.y-.0;
     float posx = inPos.x-.0;
@@ -108,30 +110,20 @@ void main(){
     else
       colors = vec4(0,0,0,0);
   }
-  if(drawterrain==1)
+  else if(drawterrain==1)
   {
-    //colors = vec4(.3, .9, .3, 1)*lambert;
-
-    //if(lambert > 0.0)
-    //{
       f = smoothstep(.0, 1.0, lambert);
-      //pixcolor1 = vec4(.2, .8, .2, 1);
-      //pixcolor2 = vec4(.3, .9, .3, 1);
-      //pixcolor2 = vec4(.55, .9, .36, 1);
       pixcolor2 = vec4(.87, 1.0, .55, 1);
       pixcolor1 = vec4(.25, .6, .06, 1);
       colors = mix(pixcolor1, pixcolor2, f);
-      //colors = pixcolor2;
-    //}
 
-    //colors += vec4(0, 4.0*rando(vec2(inPos.x/3.0, inPos.x/3.0)), 0, 0);
+    //float rand = .1*sin(inPos.x/3.2) + .08*sin(inPos.z/4.3) +
+    //          .02*cos(inPos.y/5.0) + .007*cos(inPos.x*inPos.z)
+    //          + .01*cos(sin(inPos.x )) + .003*sin(sin(tf*.4))
+    //          + .03*clamp(tan(sin(inPos.x + inPos.y) + .02*cos(inPos.y*3.0) ), 0., 1.0);
 
-    float rand = .1*sin(inPos.x/3.2) + .08*sin(inPos.z/4.3) +
-              .02*cos(inPos.y/5.0) + .007*cos(inPos.x*inPos.z)
-              + .01*cos(sin(inPos.x )) + .003*sin(sin(tf*.4))
-              + .03*clamp(tan(sin(inPos.x + inPos.y) + .02*cos(inPos.y*3.0) ), 0., 1.0);
-
-    colors += vec4(0, .05*rando(vec2(int(inPos.x*20.0), int(inPos.z*20.0))) + rand*.1, 0, 0);
+    //colors += vec4(0, .05*rando(vec2(int(inPos.x*20.0), int(inPos.z*20.0))) + rand*.1, 0, 0);
+    colors += vec4(0, .05*rando(vec2(int(inPos.x*20.0), int(inPos.z*20.0))), 0, 0);
 
     if(inPos.y < 0.4 && inPos.y >= 0.2)
     {
@@ -165,7 +157,7 @@ void main(){
     				colors = colors*.5;
   }
 
-  if(draw_landing_point==1)
+  else if(draw_landing_point==1)
   {
     f = smoothstep(.2, .9, lambert);
     pixcolor1 = vec4(.8, .4, .0, 1);
@@ -181,32 +173,28 @@ void main(){
         				colors = colors*.5;
   }
 
-  if(draw_hudf==1)
+  else if(draw_hudf==1)
   {
     if(draw_fuelbarf==1)
       colors = vec4(.9, .1, .1, 1.0);
 
-    if(draw_fuelbar_backgroundf==1)
+    else if(draw_fuelbar_backgroundf==1)
       colors = vec4(.5,.5,.5,.5);
 
-    if(draw_speedometerf==1)
-    {
-    /*
-      if(abs(spaceship_speed.y) > .1)
-        colors = vec4(.9, .1, .1, 1.0);
-      else
-        colors = vec4(.1, .9, .1, 1.0);
-*/
 
-      float f = smoothstep(0., .075, -spaceship_speed.y);
+    else if(draw_speedometerf==1)
+    {
+      float f = smoothstep(0., .06, -spaceship_speedf.y);
       vec4 pixcolor2 = vec4(.9, .1, .1, 1.0);
       vec4 pixcolor1 = vec4(.1, .9, .1, 1.0);
       colors = mix(pixcolor1, pixcolor2, f);
 
     }
+
+
   }
 
-  if(draw_gameoverf==1)
+  else if(draw_gameoverf==1)
   {
     colors = texture2D(tex0, texCoord);
   }

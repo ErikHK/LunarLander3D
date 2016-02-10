@@ -134,6 +134,7 @@ public class Spaceship {
 
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_pos"), pos.x, pos.y, pos.z);
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_speed"), speed.x, speed.y, speed.z);
+        GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_speedf"), speed.x, speed.y, speed.z);
 
         float ang = MainActivity.phone_ang;
 

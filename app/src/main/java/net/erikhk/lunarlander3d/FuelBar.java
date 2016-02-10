@@ -31,13 +31,14 @@ public class FuelBar {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbarf"), 1);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbar"), 1);
 
-        m.DrawModel();
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbar_backgroundf"), 1);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbar_background"), 1);
         mb.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbar_backgroundf"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbar_background"), 0);
+
+        m.DrawModel();
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbar"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_fuelbarf"), 0);
