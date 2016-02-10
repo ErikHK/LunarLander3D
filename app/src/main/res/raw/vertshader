@@ -62,10 +62,10 @@ void main(){
       float speed = spaceship_speed.y;
       if(speed > 0.0)
         speed = 0.0;
-      gl_Position = vec4(pos.x*.4*speed*10.0 - .7 -.2 - .2*speed*10.0, pos.y*.2+.8, pos.z-0.0, 1.0);
+      gl_Position = vec4(pos.x*.4*speed*10.0/.65 - .7 -.2 - .2*speed*10.0/.65, pos.y*.2+.8, pos.z-0.0, 1.0);
 
       if(draw_speedometer_bg==1)
-        gl_Position = vec4(pos.x*.4*.65 - .7 -.2 + .2*.65, pos.y*.2+.75, pos.z-0.0, 1.0);
+        gl_Position = vec4(pos.x*.4 - .7 -.2 + .2, pos.y*.2+.8, pos.z-0.0, 1.0);
     }
 
   }
