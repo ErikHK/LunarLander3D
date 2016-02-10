@@ -18,6 +18,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public LandingPoint lp;
     public FuelBar fuelbar;
     public Camera camera;
+    public Speedometer speedometer;
     public Sky sky;
     public Menu menu;
     public ParticleSystem particleSystem;
@@ -56,6 +57,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         camera = new Camera();
         menu = new Menu(c);
         sky = new Sky(c);
+        speedometer = new Speedometer(c);
         particleSystem = new ParticleSystem();
 
         GLES20.glClearColor(.6f, 1f, 1f, 1f);
@@ -118,6 +120,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         spaceship.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_spaceship"), 0);
 
+        speedometer.update(spaceship);
+
+
         particleSystem.DrawModel(spaceship);
 
         if(MainActivity.istapping)
@@ -138,7 +143,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             spaceship.move();
         else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + 2f)
             spaceship.move();
-        else if(dist < 1.0f)
+        else if(dist < 1.0f && (float)Math.abs(spaceship.speed.y) < .08f)
             spaceship.haslanded = true;
         else //has crashed
             spaceship.hascrashed = true;

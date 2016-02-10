@@ -11,7 +11,11 @@ uniform int draw_spaceship;
 uniform int draw_skydomef;
 uniform int draw_exhaustf;
 uniform int draw_particlesf;
+uniform int draw_fuelbarf;
 uniform int draw_fuelbar_backgroundf;
+uniform int draw_speedometerf;
+
+uniform vec3 spaceship_speed;
 uniform vec3 draw_particle_color;
 
 uniform sampler2D tex0;
@@ -179,12 +183,27 @@ void main(){
 
   if(draw_hudf==1)
   {
-    colors = vec4(.9, .1, .1, 1.0);
+    if(draw_fuelbarf==1)
+      colors = vec4(.9, .1, .1, 1.0);
 
     if(draw_fuelbar_backgroundf==1)
       colors = vec4(.5,.5,.5,.5);
 
-    //colors = texture2D(tex0, texCoord*1.0);
+    if(draw_speedometerf==1)
+    {
+    /*
+      if(abs(spaceship_speed.y) > .1)
+        colors = vec4(.9, .1, .1, 1.0);
+      else
+        colors = vec4(.1, .9, .1, 1.0);
+*/
+
+      float f = smoothstep(0., .075, -spaceship_speed.y);
+      vec4 pixcolor2 = vec4(.9, .1, .1, 1.0);
+      vec4 pixcolor1 = vec4(.1, .9, .1, 1.0);
+      colors = mix(pixcolor1, pixcolor2, f);
+
+    }
   }
 
   if(draw_gameoverf==1)
