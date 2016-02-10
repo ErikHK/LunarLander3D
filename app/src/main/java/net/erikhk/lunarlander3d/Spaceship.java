@@ -24,7 +24,7 @@ public class Spaceship {
     public boolean hascrashed = false;
     public boolean isthrusting = false;
     public float fuel = 100.0f;
-    public float thrust = .0007f*2f;
+    public float thrust = .0007f*2f*1.5f;
     public Vec3 speed = new Vec3();
     public Vec3 pos = new Vec3();
     public Vec3 acc = new Vec3();
@@ -53,7 +53,7 @@ public class Spaceship {
             phone_n = MainActivity.phone_n;
             init_phone_n = MainActivity.init_phone_n;
 
-            Vec3 ny = new Vec3(0,1,0);
+            Vec3 ny = new Vec3(0,0,-1);
             Vec3 cross2 = VecMath.CrossProduct(init_phone_n, ny);
             float ang2 = (float)Math.asin(VecMath.Norm(cross2)/(VecMath.Norm(init_phone_n) ));;
             Mat4 rotmat2 = VecMath.ArbRotate(cross2, ang2);
@@ -63,7 +63,7 @@ public class Spaceship {
             if( Math.abs(init_phone_n.z) > Math.abs(init_phone_n.y) )
                 rotmat = VecMath.ArbRotate( VecMath.MultVec3(VecMath.Rx(-(float) Math.PI/2),  VecMath.Normalize(cross)), MainActivity.phone_ang);
 
-            //Mat4 rotmatf = VecMath.Mult(rotmat, rotmat2);
+            Mat4 rotmatf = VecMath.Mult(rotmat, rotmat2);
 
             Ro = rotmat;
             //Ro = VecMath.ArbRotate( VecMath.MultVec3(VecMath.Rx(-(float) Math.PI/2),  VecMath.Normalize(cross)), MainActivity.phone_ang);
@@ -98,7 +98,7 @@ public class Spaceship {
     public void move()
     {
         Vec3 cross = VecMath.Normalize(VecMath.CrossProduct(phone_n, init_phone_n));
-        Vec3 ny = new Vec3(0,1,0);
+        Vec3 ny = new Vec3(0,0,1);
         Vec3 cross2 = VecMath.CrossProduct(init_phone_n, ny);
         float ang2 = (float)Math.asin(VecMath.Norm(cross2)/(VecMath.Norm(init_phone_n) ));;
         Mat4 rotmat2 = VecMath.ArbRotate(cross2, ang2);
@@ -108,12 +108,14 @@ public class Spaceship {
 
         if( Math.abs(init_phone_n.z) > Math.abs(init_phone_n.y) )
             rotmat = VecMath.ArbRotate( VecMath.MultVec3(VecMath.Rx(-(float) Math.PI/2),  VecMath.Normalize(cross)), MainActivity.phone_ang);
-        
+
         Mat4 rotmatf = VecMath.Mult(rotmat, rotmat2);
 
         float nx = VecMath.MultVec3(rotmat, new Vec3(0,1,0)).x;
+        //float nx = -VecMath.MultVec3(rotmat, VecMath.Normalize(init_phone_n)).x;
         //float nx = VecMath.MultVec3(rotmat, new Vec3(1,0,0)).x;
         float nz = VecMath.MultVec3(rotmat, new Vec3(0,1,0)).z;
+        //float nz = -VecMath.MultVec3(rotmat, VecMath.Normalize(init_phone_n)).z;
 
         //float phone_ang = MainActivity.phone_ang;
         //float nx = VecMath.DotProduct(VecMath.Normalize(init_phone_n), new Vec3(0,0,0));
@@ -141,7 +143,7 @@ public class Spaceship {
             GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), fuel);
 
             acc.x = thrust * nx;///5.0f;
-            acc.y = thrust * (float)Math.cos(ang);
+            acc.y = thrust * (float)Math.cos(ang) + gravity;
             acc.z = thrust * nz;///5.0f;
 
         }
