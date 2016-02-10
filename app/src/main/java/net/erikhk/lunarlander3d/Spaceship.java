@@ -49,14 +49,26 @@ public class Spaceship {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, m.textureHandle[0]);
         Mat4 rot;
         if(!haslanded) {
-            Vec3 n = new Vec3(0, -1, 0);
             Vec3 cross = VecMath.CrossProduct(MainActivity.phone_n, MainActivity.init_phone_n);
             phone_n = MainActivity.phone_n;
             init_phone_n = MainActivity.init_phone_n;
-            Ro = VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang);
+
+            Vec3 ny = new Vec3(0,1,0);
+            Vec3 cross2 = VecMath.CrossProduct(init_phone_n, ny);
+            float ang2 = (float)Math.asin(VecMath.Norm(cross2)/(VecMath.Norm(init_phone_n) ));;
+            Mat4 rotmat2 = VecMath.ArbRotate(cross2, ang2);
+            //Mat4 rotmat = VecMath.ArbRotate(cross, MainActivity.phone_ang);
+            Mat4 rotmat = VecMath.ArbRotate(VecMath.Normalize(cross), MainActivity.phone_ang);
+
+            if( Math.abs(init_phone_n.z) > Math.abs(init_phone_n.y) )
+                rotmat = VecMath.ArbRotate( VecMath.MultVec3(VecMath.Rx(-(float) Math.PI/2),  VecMath.Normalize(cross)), MainActivity.phone_ang);
+
+            //Mat4 rotmatf = VecMath.Mult(rotmat, rotmat2);
+
+            Ro = rotmat;
+            //Ro = VecMath.ArbRotate( VecMath.MultVec3(VecMath.Rx(-(float) Math.PI/2),  VecMath.Normalize(cross)), MainActivity.phone_ang);
             rot = VecMath.Mult(T, Ro);
             GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(rot.m));
-
         }
         else
         {
@@ -85,12 +97,37 @@ public class Spaceship {
 
     public void move()
     {
+        Vec3 cross = VecMath.Normalize(VecMath.CrossProduct(phone_n, init_phone_n));
+        Vec3 ny = new Vec3(0,1,0);
+        Vec3 cross2 = VecMath.CrossProduct(init_phone_n, ny);
+        float ang2 = (float)Math.asin(VecMath.Norm(cross2)/(VecMath.Norm(init_phone_n) ));;
+        Mat4 rotmat2 = VecMath.ArbRotate(cross2, ang2);
+        //Mat4 rotmat = VecMath.ArbRotate(cross, MainActivity.phone_ang);
+        float phone_ang = MainActivity.phone_ang;
+        Mat4 rotmat = VecMath.ArbRotate(cross, MainActivity.phone_ang);
 
-        Vec3 world_n = new Vec3(init_phone_n.x - phone_n.x, init_phone_n.y-phone_n.y, init_phone_n.z - phone_n.z);
-        Vec3 xy = new Vec3(world_n.x, world_n.y, 0);
-        Vec3 xz = new Vec3((phone_n.x-init_phone_n.x), 0, (phone_n.z-init_phone_n.z));
-        Vec3 y = new Vec3(0,init_phone_n.y,0);
-        Vec3 x = new Vec3(init_phone_n.x,0,0);
+        if( Math.abs(init_phone_n.z) > Math.abs(init_phone_n.y) )
+            rotmat = VecMath.ArbRotate( VecMath.MultVec3(VecMath.Rx(-(float) Math.PI/2),  VecMath.Normalize(cross)), MainActivity.phone_ang);
+        
+        Mat4 rotmatf = VecMath.Mult(rotmat, rotmat2);
+
+        float nx = VecMath.MultVec3(rotmat, new Vec3(0,1,0)).x;
+        //float nx = VecMath.MultVec3(rotmat, new Vec3(1,0,0)).x;
+        float nz = VecMath.MultVec3(rotmat, new Vec3(0,1,0)).z;
+
+        //float phone_ang = MainActivity.phone_ang;
+        //float nx = VecMath.DotProduct(VecMath.Normalize(init_phone_n), new Vec3(0,0,0));
+        //Vec3 init_n = VecMath.Normalize(init_phone_n);
+        //float nx = phone_n.x * init_n.y;
+        //float nz = phone_n.z * init_n.y;
+
+        //Vec3 normn = VecMath.Normalize(init_phone_n);
+
+        //Vec3 world_n = new Vec3(init_phone_n.x - phone_n.x, init_phone_n.y-phone_n.y, init_phone_n.z - phone_n.z);
+        //Vec3 xy = new Vec3(world_n.x, world_n.y, 0);
+        //Vec3 xz = new Vec3((phone_n.x-init_phone_n.x), 0, (phone_n.z-init_phone_n.z));
+        //Vec3 y = new Vec3(0,init_phone_n.y,0);
+        //Vec3 x = new Vec3(init_phone_n.x,0,0);
 
 
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_pos"), pos.x, pos.y, pos.z);
@@ -98,18 +135,14 @@ public class Spaceship {
         float ang = MainActivity.phone_ang;
 
         if(isthrusting) {
-            /*
-            acc.x = -thrust * (float)Math.sin(MainActivity.phone_ang);
-            acc.y = thrust * (float)Math.cos(MainActivity.phone_ang);
-            acc.z = -thrust * (float)Math.sin(phi);
-            */
+
             if(fuel > 0.0f)
-            fuel -= .3;
+              fuel -= .3;
             GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), fuel);
-            acc.x = thrust * xz.x/5.0f;
-            //acc.y = thrust*(1 - (float)Math.sqrt( (xz.x)*(xz.x) + (xz.z)*(xz.z)  )/10.0f);
+
+            acc.x = thrust * nx;///5.0f;
             acc.y = thrust * (float)Math.cos(ang);
-            acc.z = thrust * xz.z/5.0f;
+            acc.z = thrust * nz;///5.0f;
 
         }
         else

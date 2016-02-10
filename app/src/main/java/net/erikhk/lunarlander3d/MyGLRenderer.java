@@ -3,15 +3,8 @@ package net.erikhk.lunarlander3d;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class MyGLRenderer implements GLSurfaceView.Renderer {
@@ -40,28 +33,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
-
-        /*
-        bitm = Bitmap.createBitmap(256*4, 256*4, Bitmap.Config.ARGB_8888);
-        Canvas cs = new Canvas(bitm);
-
-        cs.drawColor(Color.BLUE);
-        //Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        Paint p = new Paint();
-        p.setColor(Color.WHITE);
-        p.setStyle(Paint.Style.FILL);
-        p.setTextSize(40 * 4);
-        //cs.drawPaint(p);
-
-        cs.drawText("HEJSAN HEJSAN",40,40*4,p);
-        cs.drawCircle(10, 10, 20, p);
-        */
-
-        //debug texture
-        //cs.drawRect(0,0,256,256,p);
-        //p.setColor(Color.BLACK);
-        //cs.drawRect(0, 0, 127, 127, p);
-        //cs.drawRect(127,127,256,256,p);
 
         t = 0;
         Shader.makeprogram();

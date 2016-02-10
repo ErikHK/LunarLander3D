@@ -9,7 +9,6 @@ import java.nio.FloatBuffer;
  */
 public class VecMath {
 
-
     public static Mat4 ArbRotate(Vec3 axis, float fi)
     {
         Vec3 x, y, z;
@@ -17,10 +16,10 @@ public class VecMath {
         Mat4 R = new Mat4();
         Mat4 Rt, Raxel;
 
-        if (axis.x < 0.0000001) // Below some small value
-            if (axis.x > -0.0000001)
-                if (axis.y < 0.0000001)
-                    if (axis.y > -0.0000001)
+        if (axis.x < 0.1) // Below some small value
+            if (axis.x > -0.1)
+                if (axis.y < 0.1)
+                    if (axis.y > -0.1)
                     {
                         if (axis.z > 0)
                         {
@@ -209,6 +208,18 @@ public class VecMath {
                             a.m[y*4+3] * b.m[3*4+x];
 
         return m;
+    }
+
+
+    public static Vec3 MultVec3(Mat4 a, Vec3 b) // result = a * b
+    {
+        Vec3 r = new Vec3();
+
+            r.x = a.m[0]*b.x + a.m[1]*b.y + a.m[2]*b.z + a.m[3];
+            r.y = a.m[4]*b.x + a.m[5]*b.y + a.m[6]*b.z + a.m[7];
+            r.z = a.m[8]*b.x + a.m[9]*b.y + a.m[10]*b.z + a.m[11];
+
+        return r;
     }
 
     public static float Norm(Vec3 a)

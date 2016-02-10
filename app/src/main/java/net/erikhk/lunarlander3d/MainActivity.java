@@ -101,9 +101,6 @@ public class MainActivity extends Activity implements SensorEventListener, View.
         swidth = p.x;
         sheight = p.y;
 
-
-
-
         spaceship_verts_s = readTxt(R.raw.spaceship_verts);
         spaceship_verts = stringToFloats(spaceship_verts_s);
 
@@ -154,23 +151,12 @@ public class MainActivity extends Activity implements SensorEventListener, View.
             Vec3 cross = VecMath.CrossProduct(phone_n, init_phone_n);
 
             phone_ang = (float)Math.asin(VecMath.Norm(cross)/(VecMath.Norm(phone_n) * VecMath.Norm(init_phone_n) ));
-
-        /*
-        final float[] rotmat = new float[9];
-        final float[] ident = {1,0,0, 0,1,0, 0,0,1};
-        final float[] angles = {0,0};
-        float[] grav = {init_phone_n.x - phone_n.x, init_phone_n.y-phone_n.y, init_phone_n.z - phone_n.z};
-*/
-
-
-        //}
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
 
     @Override
     protected void onPause() {
