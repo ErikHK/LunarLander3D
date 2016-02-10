@@ -23,6 +23,8 @@ uniform int draw_skydome;
 uniform int draw_fuelbar_background;
 uniform int draw_fuelbar;
 uniform int draw_speedometer;
+uniform int draw_speedometer_bg;
+
 mat4 test;
 
 uniform vec3 spaceship_speed;
@@ -47,15 +49,25 @@ void main(){
   }
   else if(draw_hud==1)
   {
-    //gl_Position = projmatrix*vec4(pos.x*6.0*fuel/100.0+13.0, pos.y*2.0+8.0, pos.z-20.0, 1.0);
-    //gl_Position = vec4(pos.x*2., pos.y*2., pos.z-0.0, 1.0);
-    if(draw_fuelbar_background==1)
-      gl_Position = vec4(pos.x*.4 + .7, pos.y*.2+.8, pos.z-0.0, 1.0);
-    else if(draw_fuelbar==1)
+    if(draw_fuelbar==1)
+    {
       gl_Position = vec4(pos.x*.4*fuel/100.0+.5 + .2*fuel/100.0, pos.y*.2+.8, pos.z-0.0, 1.0);
+
+      if(draw_fuelbar_background==1)
+            gl_Position = vec4(pos.x*.4 + .7, pos.y*.2+.8, pos.z-0.0, 1.0);
+    }
     else if(draw_speedometer==1)
-      gl_Position = vec4(pos.x*.4*abs(spaceship_speed.y*10.0) - .7, pos.y*.2+.8, pos.z-0.0, 1.0);
-    //gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
+    {
+      //float speed = clamp(spaceship_speed.y, -.065, 0.);
+      float speed = spaceship_speed.y;
+      if(speed > 0.0)
+        speed = 0.0;
+      gl_Position = vec4(pos.x*.4*speed*10.0 - .7 -.2 - .2*speed*10.0, pos.y*.2+.8, pos.z-0.0, 1.0);
+
+      if(draw_speedometer_bg==1)
+        gl_Position = vec4(pos.x*.4*.65 - .7 -.2 + .2*.65, pos.y*.2+.75, pos.z-0.0, 1.0);
+    }
+
   }
   else if(draw_gameover==1)
   {

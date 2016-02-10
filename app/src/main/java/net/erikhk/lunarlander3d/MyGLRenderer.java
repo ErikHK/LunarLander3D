@@ -106,11 +106,11 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hudf"), 1);
 
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-        //GLES20.glEnable(GLES20.GL_BLEND);
-        //GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         fuelbar.DrawModel();
         speedometer.update(spaceship);
-        //GLES20.glDisable(GLES20.GL_BLEND);
+        GLES20.glDisable(GLES20.GL_BLEND);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_hud"), 0);
@@ -142,7 +142,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
             spaceship.move();
         else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + 2f)
             spaceship.move();
-        else if(dist < 1.0f && (float)Math.abs(spaceship.speed.y) < .06f)
+        else if(dist < 1.0f && (float)Math.abs(spaceship.speed.y) < .065f)
             spaceship.haslanded = true;
         else //has crashed
             spaceship.hascrashed = true;
