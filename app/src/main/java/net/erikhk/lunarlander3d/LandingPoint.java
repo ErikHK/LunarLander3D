@@ -26,10 +26,10 @@ public class LandingPoint {
         int tries=0;
 
         float distToSpaceship = (float)Math.sqrt((pos.x-2)*(pos.x-2) + (pos.y-27)*(pos.y-27));
-            while (t.getHeight(pos.x, pos.z) <= 0.0f && tries < 100 && distToSpaceship > 1) {
+            while (t.getHeight(pos.x, pos.z) <= 0.0f && tries < 1000 && distToSpaceship > 1) {
                 distToSpaceship = (float) Math.sqrt((pos.x - 2) * (pos.x - 2) + (pos.y - 27) * (pos.y - 27));
-                pos.x = 25 * r.nextFloat() + 3;
-                pos.z = 25 * r.nextFloat() + 3;
+                pos.x = 23 * r.nextFloat() + 3;
+                pos.z = 23 * r.nextFloat() + 3;
 
                 tries++;
             }
@@ -42,31 +42,6 @@ public class LandingPoint {
                 R.drawable.landing_point_texture, GLES20.GL_TEXTURE0);
         size = t.size;
         scale = t.scale;
-    }
-
-
-
-    public void randomize_pos(Terrain t)
-    {
-        pos = new Vec3();
-        Random r = new Random();
-
-        pos.x = 20*r.nextFloat() + 10;
-        pos.z = 20*r.nextFloat() + 10;
-
-        int tries=0;
-
-        while(t.getHeight(pos.x, pos.z) <= 0.0f && tries < 200)
-        {
-            pos.x = 25*r.nextFloat()+2;
-            pos.z = 25*r.nextFloat()+2;
-
-            tries++;
-        }
-
-        pos.y = t.getHeight(pos.x, pos.z);
-        if(pos.y < 0)
-            pos.y = -.1f;
     }
 
     public void DrawModel()

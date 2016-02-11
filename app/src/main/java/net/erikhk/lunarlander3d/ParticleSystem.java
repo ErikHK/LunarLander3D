@@ -38,13 +38,15 @@ public class ParticleSystem {
 
     public void DrawModel(Spaceship s)
     {
+        if(s.fuel <= 0.0f)
+            return;
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_particlesf"), 1);
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         if(s.isthrusting) {
             for (int i = 0; i < numParticles; i++) {
                 //Vec3 dir = new Vec3(.5f*r.nextFloat()-.2f, 1.0f*r.nextFloat()-1.4f, 0.5f*r.nextFloat());
-                Vec3 dir = new Vec3(.5f*r.nextFloat()-.2f, .7f*r.nextFloat()-.9f-.4f, (i-numParticles/2.0f)*.1f);
+                Vec3 dir = new Vec3(.5f*r.nextFloat()-.2f, .7f*r.nextFloat()-.9f-.4f, (i-numParticles/2.0f)*.12f);
                 float distScale = 1.0f*(.4f-dir.y);
 
                 //Vec3 dir = new Vec3(0, -.8f, 0);

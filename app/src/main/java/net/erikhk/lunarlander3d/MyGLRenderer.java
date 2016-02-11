@@ -53,6 +53,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         spaceship = new Spaceship(c);
         terrain = new Terrain(c);
         lp = new LandingPoint(c, terrain);
+        spaceship.setMaxFuel(lp);
         fuelbar = new FuelBar(c);
         camera = new Camera();
         menu = new Menu(c);
@@ -64,6 +65,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), spaceship.fuel);
+        GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "max_fuel"), spaceship.max_fuel);
+
     }
 
     //@Override
@@ -121,7 +124,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         spaceship.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_spaceship"), 0);
 
-
         particleSystem.DrawModel(spaceship);
 
         if(MainActivity.istapping)
@@ -176,9 +178,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         sky = null;
 
         spaceship = new Spaceship(c);
-        GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), spaceship.fuel);
         terrain = new Terrain(c);
         lp = new LandingPoint(c, terrain);
+        spaceship.setMaxFuel(lp);
+
+        GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), spaceship.fuel);
+        GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "max_fuel"), spaceship.max_fuel);
+
         fuelbar = new FuelBar(c);
         camera = new Camera();
         menu = new Menu(c);

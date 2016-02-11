@@ -15,6 +15,7 @@ uniform mat4 projmatrix;
 uniform mat4 cammatrix;
 uniform float ang;
 uniform float fuel;
+uniform float max_fuel;
 uniform int draw_hud;
 uniform int drawterrain2;
 uniform int draw_gameover;
@@ -51,7 +52,7 @@ void main(){
   {
     if(draw_fuelbar==1)
     {
-      gl_Position = vec4(pos.x*.4*fuel/100.0+.5 + .2*fuel/100.0, pos.y*.2+.8, pos.z-0.0, 1.0);
+      gl_Position = vec4(pos.x*.4*fuel/max_fuel+.5 + .2*fuel/max_fuel, pos.y*.2+.8, pos.z-0.0, 1.0);
 
       if(draw_fuelbar_background==1)
             gl_Position = vec4(pos.x*.4 + .7, pos.y*.2+.8, pos.z-0.0, 1.0);

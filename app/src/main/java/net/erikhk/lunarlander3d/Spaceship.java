@@ -24,6 +24,7 @@ public class Spaceship {
     public boolean hascrashed = false;
     public boolean isthrusting = false;
     public float fuel = 100.0f;
+    public float max_fuel = 100.0f;
     public float thrust = .0007f*2f*1.5f;
     public Vec3 speed = new Vec3();
     public Vec3 pos = new Vec3();
@@ -42,6 +43,22 @@ public class Spaceship {
         T = VecMath.IdentityMatrix();
         Ro = VecMath.IdentityMatrix();
         pos = new Vec3(5f, 15f, 27f);
+    }
+
+    public void setMaxFuel(LandingPoint lp)
+    {
+        float dist = VecMath.DistanceXZ(lp.pos, pos);
+
+        if(dist >= 1.0f)
+          max_fuel = (float)Math.pow(dist, 1.2)*3.7f;
+        else
+          max_fuel = dist*3.5f;
+
+        if(max_fuel < 30f)
+            max_fuel = 30f;
+
+
+        fuel = max_fuel;
     }
 
     public void DrawModel()
@@ -81,7 +98,7 @@ public class Spaceship {
         //GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Ro.m));
         m.DrawModel();
 
-        if(isthrusting) {
+        if(isthrusting && fuel > .0f) {
             GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_exhaustf"), 1);
             Mat4 Tf = VecMath.Mult(rot, VecMath.T(0, -.8f, 0));
             GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Tf.m));
@@ -138,7 +155,7 @@ public class Spaceship {
 
         float ang = MainActivity.phone_ang;
 
-        if(isthrusting) {
+        if(isthrusting && fuel > 0.0f) {
 
             if(fuel > 0.0f)
               fuel -= .3;

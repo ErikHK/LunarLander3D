@@ -15,7 +15,7 @@ public class Terrain {
     public static Model m, ocean;
     static int[] p = new int[512];
     static int repeat = 0;
-    static int size = 16;
+    static int size = 20;
     static float[][] heights = new float[size][size];
     Random r = new Random();
     static int scale = 1;
@@ -189,10 +189,12 @@ public class Terrain {
                     */
                     // Vertex array. You need to scale this properly
                     vertexArray[(x + z * size)*3 + 0] = 2*x;//scale*(x-size/2);
-                    float mx=(x-7.5f)/7.5f, mz=(z-7.5f)/7.5f;
+                    //float mx=(x-7.5f)/7.5f, mz=(z-7.5f)/7.5f;
+                    float mx=(x-10f)/10f, mz=(z-10f)/10f;
                     float f = 0.0f;
                     //f = sinc(mx, mz);
                     f = linear_attenuation(mx, mz);
+
 
                     vertexArray[(x + z * size) * 3 + 1] = height*f - .2f;
                     vertexArray[(x + z * size)*3 + 2] = 2*z;//scale*(z-size/2);
@@ -261,6 +263,11 @@ public class Terrain {
             f = (float) (Math.sin(Math.PI * mx) /(mx*Math.PI) );
         else if(mz != 0.0f)
             f = (float) (Math.sin(Math.PI * mz) /(mz*Math.PI) );
+        else if(mx == 0 && mz == 0)
+            f = 1f;
+
+        if(mx >= .7f || mz >= .7f)
+            f = 0;
 
         return f;
     }
@@ -268,18 +275,15 @@ public class Terrain {
     public static float linear_attenuation(float mx, float mz)
     {
         //mx and mz goes from -1 to 1
-        if(Math.abs(mx) < .95 && Math.abs(mz) < .95)
-            return 1.0f;
+        if(Math.abs(mx) >= .8 || Math.abs(mz) >= .8)
+            return 0.0f;
 
-        //if(Math.abs(mx) >= .85 && Math.abs(mz) >= .85)
-        //    return .5f;
+        if(Math.abs(mx) > .4)
+            return Math.max(1.5f-1.6f*Math.abs(mx), 0);
+        if(Math.abs(mz) > .4)
+            return Math.max(1.5f-1.6f*Math.abs(mz), 0);
 
-        //if(Math.abs(mx) >= .9 || Math.abs(mz) >= .9)
-        //    return 0.0f;
-
-
-        return 0.0f;
-
+        return 1.0f;
     }
 
 
