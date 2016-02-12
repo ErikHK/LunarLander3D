@@ -20,7 +20,7 @@ public class Coin {
         m = new Model(c, R.raw.landingpoint_verts, R.raw.landingpoint_normals, R.raw.landing_point_texture,
                 R.drawable.landing_point_texture, GLES20.GL_TEXTURE0);
 
-
+        pos = new Vec3(0, 0, 2);
         Random r = new Random();
 
         pos.x = 20*r.nextFloat() + 10;
@@ -34,14 +34,15 @@ public class Coin {
 
     public void update(float t)
     {
-        Rr = VecMath.Ry(t/100.0f);
+        Rr = VecMath.Mult(VecMath.Ry(2*t), VecMath.Rz((float)Math.PI/2));
         T = VecMath.T(pos.x, pos.y, pos.z);
-        M = VecMath.Mult(T, VecMath.Mult(VecMath.S(.1f, 1f, 1f), Rr));
-        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, VecMath.makefloatbuffer(M.m));
+        M = VecMath.Mult(T, VecMath.Mult(Rr, VecMath.S(2f, .2f, 2f)));
+        //GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, VecMath.makefloatbuffer(T.m));
     }
 
     public void DrawModel()
     {
+        GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, VecMath.makefloatbuffer(M.m));
         m.DrawModel();
     }
 

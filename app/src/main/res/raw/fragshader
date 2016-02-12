@@ -65,6 +65,8 @@ void main(){
   vec4  pixcolor1 = vec4(1, 1, 1, 1);
   vec4  pixcolor2 = vec4(.8, .8, .8, 1);
 
+  colors = vec4(1,1,0,1)*lambert+vec4(.3,.3,0,1);
+
   if(draw_skydomef==1)
   {
     f = smoothstep(-.45, .45, inPos.y);

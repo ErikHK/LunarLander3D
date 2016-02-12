@@ -22,6 +22,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public Sky sky;
     public Menu menu;
     public ParticleSystem particleSystem;
+    public Coin coin;
     public Context c;
     //public static Bitmap bitm;
 
@@ -58,6 +59,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         camera = new Camera();
         menu = new Menu(c);
         sky = new Sky(c);
+        coin = new Coin(c, terrain);
+
         speedometer = new Speedometer(c);
         particleSystem = new ParticleSystem();
 
@@ -96,11 +99,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydome"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydomef"), 0);
 
+        coin.update(t);
         //Draw models
         terrain.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 1);
         lp.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 0);
+        coin.DrawModel();
 
         fuelbar.update(spaceship.fuel);
         camera.update(spaceship);
