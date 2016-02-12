@@ -57,7 +57,7 @@ public class Spaceship {
         if(max_fuel < 30f)
             max_fuel = 30f;
 
-
+        max_fuel = 1000;
         fuel = max_fuel;
     }
 

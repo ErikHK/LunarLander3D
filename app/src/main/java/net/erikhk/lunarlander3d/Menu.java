@@ -27,10 +27,8 @@ public class Menu {
         gameOver = drawTextInMiddle("OH NO! YOU CRASHED!");
         squareGameOver = new Model(c, R.raw.plane2_verts, R.raw.plane2_normals, R.raw.plane2_texture, gameOver);
 
-
         success = drawTextInMiddle("YEY! YOU DID IT!");
         squareSuccess = new Model(c, R.raw.plane2_verts, R.raw.plane2_normals, R.raw.plane2_texture, success);
-
     }
 
     public Bitmap drawTextInMiddle(String text)

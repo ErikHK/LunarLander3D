@@ -28,7 +28,7 @@ public class Coin {
 
         float ydiff = r.nextFloat()*3f + 2f;
 
-        pos.y = t.getHeight(pos.x, pos.z) + ydiff;
+        pos.y = Math.max(t.getHeight(pos.x, pos.z),0) + ydiff;
 
     }
 
