@@ -15,6 +15,7 @@ public class Coin {
     Mat4 T;
     Mat4 M;
     boolean pickedUp = false;
+    boolean reallyPickedUp = false;
     float f = 2;
     float sc = 1;
 
@@ -33,6 +34,8 @@ public class Coin {
 
         pos.y = Math.max(t.getHeight(pos.x, pos.z),0) + ydiff;
 
+        GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "coin_pos"), pos.x, pos.y, pos.z);
+
     }
 
     public void update(Spaceship s, float t)
@@ -41,7 +44,7 @@ public class Coin {
         T = VecMath.T(pos.x, pos.y, pos.z);
         M = VecMath.Mult(T, VecMath.Mult(Rr, VecMath.S(2*sc, .2f*sc, 2f*sc)));
 
-        if(VecMath.DistanceXZ(pos, s.pos) < .5)
+        if(VecMath.DistanceXZ(pos, s.pos) < .7)
             pickedUp = true;
 
         if(pickedUp)
@@ -51,6 +54,11 @@ public class Coin {
             sc *= .95f;
         }
 
+        if(sc < .35)
+            reallyPickedUp = true;
+
+        if(pickedUp)
+            GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "coin_pos"), -10, -1, -10);
     }
 
     public void DrawModel()

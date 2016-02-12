@@ -99,13 +99,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydome"), 0);
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_skydomef"), 0);
 
-        coin.update(spaceship, t);
+
         //Draw models
         terrain.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 1);
         lp.DrawModel();
         GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_landing_point"), 0);
+
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_coinf"), 1);
+        coin.update(spaceship, t);
         coin.DrawModel();
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_coinf"), 0);
 
         fuelbar.update(spaceship.fuel);
         camera.update(spaceship);
@@ -181,11 +185,13 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         menu = null;
         particleSystem = null;
         sky = null;
+        coin = null;
 
         spaceship = new Spaceship(c);
         terrain = new Terrain(c);
         lp = new LandingPoint(c, terrain);
         spaceship.setMaxFuel(lp);
+        coin = new Coin(c, terrain);
 
         GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "fuel"), spaceship.fuel);
         GLES20.glUniform1f(GLES20.glGetUniformLocation(Shader.program, "max_fuel"), spaceship.max_fuel);

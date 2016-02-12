@@ -15,14 +15,17 @@ uniform int draw_fuelbarf;
 uniform int draw_fuelbar_backgroundf;
 uniform int draw_speedometerf;
 uniform int draw_speedometer_bgf;
+uniform int draw_coinf;
 
 uniform vec3 spaceship_speedf;
 uniform vec3 draw_particle_color;
+
 
 uniform sampler2D tex0;
 
 //mat3 lightCamMatrix;
 
+uniform vec3 coin_pos;
 uniform vec3 spaceship_pos;
 uniform vec3 landing_point_pos;
 
@@ -64,8 +67,6 @@ void main(){
   float f = smoothstep(.05, .9, lambert);
   vec4  pixcolor1 = vec4(1, 1, 1, 1);
   vec4  pixcolor2 = vec4(.8, .8, .8, 1);
-
-  colors = vec4(1,1,0,1)*lambert+vec4(.3,.3,0,1);
 
   if(draw_skydomef==1)
   {
@@ -193,7 +194,16 @@ void main(){
   {
     colors = texture2D(tex0, texCoord);
   }
+  else if(draw_coinf==1)
+  {
+    colors = vec4(1,1,0,1)*lambert+vec4(.3,.3,0,1);
+
+
+  }
+
+  if( (coin_pos.x-inPos.x*1.)*(coin_pos.x-inPos.x*1.) +
+        			(coin_pos.z-inPos.z*1.)*(coin_pos.z-inPos.z*1.) < 1.0 )
+        colors = colors*.5;
 
   gl_FragColor = colors;
 }
-
