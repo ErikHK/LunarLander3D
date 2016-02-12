@@ -14,6 +14,9 @@ public class Coin {
     Mat4 Rr;
     Mat4 T;
     Mat4 M;
+    boolean pickedUp = false;
+    float f = 2;
+    float sc = 1;
 
     public Coin(Context c, Terrain t)
     {
@@ -32,12 +35,22 @@ public class Coin {
 
     }
 
-    public void update(float t)
+    public void update(Spaceship s, float t)
     {
-        Rr = VecMath.Mult(VecMath.Ry(2*t), VecMath.Rz((float)Math.PI/2));
+        Rr = VecMath.Mult(VecMath.Ry(f*t), VecMath.Rz((float) Math.PI / 2));
         T = VecMath.T(pos.x, pos.y, pos.z);
-        M = VecMath.Mult(T, VecMath.Mult(Rr, VecMath.S(2f, .2f, 2f)));
-        //GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, VecMath.makefloatbuffer(T.m));
+        M = VecMath.Mult(T, VecMath.Mult(Rr, VecMath.S(2*sc, .2f*sc, 2f*sc)));
+
+        if(VecMath.DistanceXZ(pos, s.pos) < .5)
+            pickedUp = true;
+
+        if(pickedUp)
+        {
+            pos.y += .2f;
+            f += .05f;
+            sc *= .95f;
+        }
+
     }
 
     public void DrawModel()
