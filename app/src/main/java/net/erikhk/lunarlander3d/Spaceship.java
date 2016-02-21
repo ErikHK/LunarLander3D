@@ -15,6 +15,7 @@ import java.nio.FloatBuffer;
 public class Spaceship {
 
     Model m,fire;
+    Model[] sphere = new Model[3];
     Mat4 T;
     Mat4 Ro;
     Bitmap bm;
@@ -29,6 +30,7 @@ public class Spaceship {
     public Vec3 speed = new Vec3();
     public Vec3 pos = new Vec3();
     public Vec3 acc = new Vec3();
+    public Vec3[] fin_pos = new Vec3[3];
 
     public Vec3 phone_n = new Vec3();
     public Vec3 init_phone_n = new Vec3();
@@ -38,11 +40,21 @@ public class Spaceship {
         m = new Model(c, R.raw.spaceship_verts, R.raw.spaceship_normals, R.raw.spaceship_texture,
                 R.drawable.texture, GLES20.GL_TEXTURE0);
 
+        for (int i = 0; i < 3; i++) {
+            sphere[i] = new Model(c, R.raw.diamond_verts, R.raw.diamond_normals, R.raw.diamond_texture,
+                    R.drawable.texture, GLES20.GL_TEXTURE0);
+        }
+
+
         fire = new Model(c, R.raw.plane_verts, R.raw.plane_normals);
         //T = VecMath.T(0,25f,0);
         T = VecMath.IdentityMatrix();
         Ro = VecMath.IdentityMatrix();
         pos = new Vec3(5f, 15f, 27f);
+
+        for (int i = 0; i < 3; i++) {
+            fin_pos[i] = new Vec3(0,0,0);
+        }
     }
 
     public void setMaxFuel(LandingPoint lp)
@@ -63,6 +75,7 @@ public class Spaceship {
 
     public void DrawModel()
     {
+
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, m.textureHandle[0]);
         Mat4 rot;
         if(!haslanded) {
@@ -94,9 +107,26 @@ public class Spaceship {
             //Ro = rot;
         }
 
-
         //GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(Ro.m));
         m.DrawModel();
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+
+        //draw debug spheres
+        for (int i = 0; i < 3; i++) {
+            float r = .3f;
+            float coss = (float) (r * Math.cos(Math.PI / 6 + i*2*Math.PI/3));
+            float sinn = (float) (r * Math.sin(Math.PI / 6 + i * 2 * Math.PI / 3));
+            Vec3 poss = new Vec3(coss, -.5f, sinn);
+            Mat4 TT = VecMath.T(poss);
+
+            Mat4 SS = VecMath.S(.2f, .2f, .2f);
+            Mat4 tott = VecMath.Mult(T, VecMath.Mult(Ro, VecMath.Mult(TT, SS)));
+            fin_pos[i] = VecMath.MultVec3(tott, poss); //fin position in absolute coords
+            GLES20.glUniformMatrix4fv(Shader.rothandle, 1, true, makefloatbuffer(tott.m));
+            sphere[i].DrawModel();
+
+        }
+
 
         if(isthrusting && fuel > .0f) {
             GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "draw_exhaustf"), 1);
@@ -150,6 +180,7 @@ public class Spaceship {
 
 
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_pos"), pos.x, pos.y, pos.z);
+        GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_fin_pos0"), fin_pos[0].x, fin_pos[0].y, fin_pos[0].z);
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_speed"), speed.x, speed.y, speed.z);
         GLES20.glUniform3f(GLES20.glGetUniformLocation(Shader.program, "spaceship_speedf"), speed.x, speed.y, speed.z);
 

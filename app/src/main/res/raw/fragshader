@@ -27,6 +27,7 @@ uniform sampler2D tex0;
 
 uniform vec3 coin_pos;
 uniform vec3 spaceship_pos;
+uniform vec3 spaceship_fin_pos0;
 uniform vec3 landing_point_pos;
 
 

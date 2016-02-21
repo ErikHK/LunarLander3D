@@ -69,6 +69,13 @@ public class VecMath {
 
     }
 
+    /*
+    public static Vec3 Vec3(Mat4 a)
+    {
+        return new Vec3(a.m[3], a.m[7], a.m[11]);
+    }
+    */
+
     public static Vec3 VectorSub(Vec3 a, Vec3 b)
     {
         Vec3 result = new Vec3();

@@ -149,6 +149,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         float dist = VecMath.DistanceXZ(spaceship.pos, lp.pos);
 
+        if(spaceship.fin_pos[0].y < lp.pos.y + 2f)
+            GLES20.glUniform1i(GLES20.glGetUniformLocation(Shader.program, "fin_posy"), 1);
+
         if(spaceship.pos.y > hh && dist > 1.0f)
             spaceship.move();
         else if(dist < 1.0f && spaceship.pos.y > lp.pos.y + 2f)
